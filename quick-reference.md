@@ -4,6 +4,20 @@ Use this in planning sessions, spec reviews, and design critiques.
 
 ---
 
+## AI opportunity filter
+*Run every potential AI feature through these before adding it to the roadmap. (→ Module 4)*
+
+- [ ] Is there a **language or reasoning task** at the core — not just data display or processing?
+- [ ] Would a **skilled human doing this manually** be genuinely valuable?
+- [ ] Is the **error tolerance acceptable** — can this be occasionally wrong?
+- [ ] Does AI **beat the non-AI alternative** meaningfully — not just marginally?
+
+If any answer is no, reconsider before building.
+
+**Always run a spike first** (1–3 days): validate the model can do this task on your actual data before committing to a timeline.
+
+---
+
 ## Architecture pattern selector
 
 | User does this | Pattern | Modules |
@@ -77,6 +91,58 @@ Every AI feature spec should answer:
 
 ---
 
+## Build vs. buy quick guide
+*Full framework in Module 11. Use this for fast triage.*
+
+| Capability | Default recommendation |
+|-----------|----------------------|
+| Base LLM API | Always buy |
+| Embeddings / vectorisation | Buy |
+| Vector database | Buy (pgvector if already on Postgres) |
+| Transcription | Buy (Whisper or AssemblyAI) |
+| Document parsing | Buy (pdfplumber, Unstructured.io) |
+| Content moderation | Buy (Perspective API, provider built-ins) |
+| Observability / tracing | Buy |
+| Retrieval logic + ranking | Build — close to core differentiation |
+| System prompts | Always build — this is your product behaviour |
+| Eval criteria + datasets | Always build — your quality bar is unique |
+
+**Build when:** core to differentiation, vendor quality insufficient, or data sensitivity prevents external use.  
+**Buy when:** commodity capability, not on the critical path, vendor quality tested and acceptable.  
+**Wait when:** the capability is about to commoditise — check back in 6 months.
+
+---
+
+## Safety harm checklist
+*Use during spec and pre-launch red-team. Full coverage in Module 10.*
+
+- [ ] **Hallucination** — Is the feature making factual claims? Are sources/RAG in place?
+- [ ] **Bias** — Does the feature evaluate or rank people? Is demographic testing planned?
+- [ ] **Privacy** — Is access control enforced at the retrieval layer, not just trusted to the model?
+- [ ] **Harmful content** — Is there a content moderation layer for open-ended outputs?
+- [ ] **Prompt injection** — Can user input or retrieved content hijack the system prompt?
+- [ ] **Overreliance** — Does the UI signal that outputs need review, not blind trust?
+
+**Red-team minimum:** 5+ adversarial inputs per harm category before launch. Add all failures to the eval dataset.
+
+---
+
+## AI product metrics cheat sheet
+*Full definitions in Module 16.*
+
+| Metric | Formula / method | What a change signals |
+|--------|-----------------|----------------------|
+| **Acceptance rate** | Accepted outputs ÷ total outputs shown | Overall quality signal |
+| **Regeneration rate** | Regenerate clicks ÷ total outputs | User didn't get what they needed |
+| **Edit rate** | Edits after acceptance ÷ accepted outputs | Output needed significant correction |
+| **Thumbs down rate** | Negative ratings ÷ total outputs | Direct dissatisfaction signal |
+| **Task completion rate** | Tasks completed with AI vs. without | Core utility of the feature |
+| **Escalation rate** | AI hand-offs to human ÷ total sessions | AI coverage declining or query complexity rising |
+
+**Instrument from day one** — interaction events (accept, edit, regenerate, dismiss, rating) cannot be added retroactively.
+
+---
+
 ## Retrieval (RAG) decision
 
 Use RAG when:
@@ -133,6 +199,15 @@ Minimum viable eval:
 
 | Term | Plain English |
 |------|--------------|
+| **Spike** | 1–3 day engineering investigation to validate if AI can do a task before committing to a timeline |
+| **Acceptance rate** | % of AI outputs users accept without modification — primary quality proxy |
+| **Regeneration rate** | % of outputs where the user asks the model to try again |
+| **Red-teaming** | Deliberately trying to make the AI produce unsafe or policy-violating outputs before launch |
+| **Data flywheel** | Self-reinforcing cycle: more users → more data → better AI → more users |
+| **Vertical AI** | AI product purpose-built for a specific industry or workflow |
+| **AI-native** | Product built AI-first from the ground up, no pre-AI baseline |
+| **AI-augmented** | Existing software product with AI capabilities added |
+| **Multimodal** | AI that processes or generates multiple content types (text, image, audio, video) |
 | **Token** | ~4 characters; the unit of cost and context |
 | **Context window** | Total text the model can see at once |
 | **RAG** | Finding relevant docs before the model call |
