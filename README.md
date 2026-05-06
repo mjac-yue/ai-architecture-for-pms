@@ -41,6 +41,11 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 | 8 | [AI UX Patterns](module-08-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
 | 9 | [The AI Product Landscape](module-09-ai-product-landscape.md) | Map any AI product to its category; understand competitive dynamics and where defensibility comes from |
 | 10 | [Build vs. Buy for AI Features](module-10-build-vs-buy.md) | Make principled build/buy decisions; evaluate vendors on quality, data risk, and cost |
+| 11 | [AI Safety & Responsible AI](module-11-ai-safety-responsible-ai.md) | Identify and mitigate AI harms; run red-team exercises; understand the regulatory landscape |
+| 12 | [Measuring AI Product Success](module-12-measuring-ai-product-success.md) | Define AI quality metrics; instrument features correctly; connect AI performance to business outcomes |
+| 13 | [Multimodal AI](module-13-multimodal-ai.md) | Know what's production-ready across vision, audio, and video; spec multimodal features correctly |
+| 14 | [Data Strategy for AI Products](module-14-data-strategy.md) | Build a data flywheel; identify your data moat; govern AI data correctly |
+| 15 | [Working with AI Engineering Teams](module-15-working-with-ai-engineers.md) | Write specs engineers can build from; estimate AI work; manage prompt and model changes safely |
 
 ---
 
