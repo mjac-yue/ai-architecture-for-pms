@@ -39,6 +39,8 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 | 6 | [Evaluating AI Features](module-06-evaluation.md) | Write acceptance criteria for AI; run basic evals before launch |
 | 7 | [Cost, Latency & Model Selection](module-07-cost-latency.md) | Make informed model-tier decisions; estimate AI infrastructure cost |
 | 8 | [AI UX Patterns](module-08-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
+| 9 | [The AI Product Landscape](module-09-ai-product-landscape.md) | Map any AI product to its category; understand competitive dynamics and where defensibility comes from |
+| 10 | [Build vs. Buy for AI Features](module-10-build-vs-buy.md) | Make principled build/buy decisions; evaluate vendors on quality, data risk, and cost |
 
 ---
 
