@@ -12,6 +12,21 @@ Read the modules in order the first time. Return to individual modules as refere
 
 ---
 
+## Getting the materials
+
+**Clone the repo:**
+```bash
+git clone https://github.com/mjac-yue/ai-architecture-for-pms.git
+cd ai-architecture-for-pms
+```
+
+**Download without git** (ZIP):
+Go to [github.com/mjac-yue/ai-architecture-for-pms](https://github.com/mjac-yue/ai-architecture-for-pms) → **Code** → **Download ZIP**, then unzip.
+
+All modules are plain Markdown files. Open them in any Markdown viewer, editor (VS Code, Obsidian, Notion import), or read directly on GitHub — diagrams render automatically there.
+
+---
+
 ## Modules
 
 | # | Module | What you'll be able to do after |
