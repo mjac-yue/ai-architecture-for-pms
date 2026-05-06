@@ -1,4 +1,4 @@
-# Module 12: Data Strategy for AI Products
+# Module 13: Data Strategy for AI Products
 
 ## Why data strategy is different for AI
 
@@ -50,7 +50,7 @@ This is more expensive (requires human time) but higher signal. Used for:
 - LLM-as-judge calibration (training the evaluator)
 
 **Building a labeling pipeline:**
-- Define a clear rubric before labeling starts (Module 14)
+- Define a clear rubric before labeling starts (Module 15)
 - Start with failures — label outputs that users flagged as bad; these are highest value
 - Use internal domain experts, not generic crowd-labelers, for specialized content
 - Establish inter-annotator agreement early — if two labelers disagree, the rubric needs work
@@ -66,7 +66,7 @@ The documents, data, and knowledge specific to your domain that a general model 
 - A sales AI with access to your CRM, past deals, and win/loss notes
 - A medical AI with access to clinical guidelines, formularies, and treatment protocols
 
-This is your RAG index (Module 5). The quality of what you index directly determines the quality of AI answers. Treat it as a product, not a technical artifact.
+This is your RAG index (Module 6). The quality of what you index directly determines the quality of AI answers. Treat it as a product, not a technical artifact.
 
 ---
 
@@ -203,7 +203,7 @@ When you don't have enough real labeled data, synthetic data — AI-generated ex
 
 ---
 
-## PM Decision Checklist — Module 12
+## PM Decision Checklist — Module 13
 
 - [ ] What interaction events are we logging, and is this specced before development starts?
 - [ ] Do we have a plan for building a labeled dataset from production outputs?

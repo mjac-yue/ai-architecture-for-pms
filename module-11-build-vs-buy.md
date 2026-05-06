@@ -1,4 +1,4 @@
-# Module 10: Build vs. Buy for AI Features
+# Module 11: Build vs. Buy for AI Features
 
 ## Why this decision is different for AI
 
@@ -196,7 +196,7 @@ The build vs. buy landscape for AI changes faster than almost any other technolo
 
 ---
 
-## PM Decision Checklist — Module 10
+## PM Decision Checklist — Module 11
 
 - [ ] For each AI capability: have I evaluated all four dimensions (differentiation, quality, data risk, cost)?
 - [ ] Have I run a quality evaluation on our actual data — not vendor benchmark claims?

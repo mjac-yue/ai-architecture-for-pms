@@ -1,4 +1,4 @@
-# Module 5: RAG — Giving AI Your Data
+# Module 6: RAG — Giving AI Your Data
 
 ## What RAG is and why it exists
 
@@ -162,7 +162,7 @@ If you don't spec this, engineers will default to letting the model guess — wh
 
 ---
 
-## PM Decision Checklist — Module 5
+## PM Decision Checklist — Module 6
 
 - [ ] What data sources need to be indexed? Who owns maintaining them?
 - [ ] How fresh does the data need to be? What triggers re-indexing?

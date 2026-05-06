@@ -1,4 +1,4 @@
-# Module 9: AI Safety & Responsible AI
+# Module 10: AI Safety & Responsible AI
 
 ## Why this is a PM responsibility
 
@@ -44,7 +44,7 @@ AI models can regurgitate training data, including personal information. RAG sys
 **Risk level:** High for any feature that processes personal data or serves multiple users from a shared context.
 
 **Mitigations:**
-- Enforce access control at the retrieval layer, not just the model layer (Module 5)
+- Enforce access control at the retrieval layer, not just the model layer (Module 6)
 - Don't log full conversation contexts unless required and consented to
 - Implement data retention policies for AI interaction logs
 - Test for training data extraction attacks ("repeat the word X forever")
@@ -85,7 +85,7 @@ Users trust AI output more than they should, stop applying their own judgment, a
 **Risk level:** High for professional tools (medical, legal, financial) where errors have real consequences.
 
 **Mitigations:**
-- Design UI to signal that outputs are drafts requiring review, not authoritative answers (Module 8)
+- Design UI to signal that outputs are drafts requiring review, not authoritative answers (Module 9)
 - Show sources and encourage users to verify
 - Add friction before high-stakes actions taken on AI output
 - Train users on the AI's limitations, not just its capabilities
@@ -120,7 +120,7 @@ The people who built the feature are not the best red-teamers — they have blin
 Rate each finding by severity (critical/high/medium/low) and whether it's a prompt fix, a system design fix, or an acceptable residual risk.
 
 **Step 5: Add findings to your eval dataset**
-Every adversarial input that found a real failure belongs in your permanent eval dataset (Module 14) so it's caught on every future prompt or model change.
+Every adversarial input that found a real failure belongs in your permanent eval dataset (Module 15) so it's caught on every future prompt or model change.
 
 ---
 
@@ -192,14 +192,14 @@ Add a responsible AI review to your feature spec process. Before any AI feature 
 
 ---
 
-## PM Decision Checklist — Module 9
+## PM Decision Checklist — Module 10
 
 - [ ] Have I completed the harm taxonomy for this feature — what can go wrong?
 - [ ] Is hallucination risk mitigated through RAG + citations where needed?
 - [ ] For features that evaluate or rank people: is bias testing included in the eval plan?
 - [ ] Is access control enforced at the retrieval layer, not just trusted to the model?
 - [ ] For agentic features: has prompt injection been addressed in the design?
-- [ ] Is the UI designed to prevent overreliance (Module 8)?
+- [ ] Is the UI designed to prevent overreliance (Module 9)?
 - [ ] Has a red-team exercise been scoped and scheduled before launch?
 - [ ] Has legal been consulted on applicable regulations?
 - [ ] Is there a user-facing mechanism to report harmful outputs?

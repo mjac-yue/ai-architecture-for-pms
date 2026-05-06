@@ -43,7 +43,7 @@ The context window is the total amount of text a model can "see" at once — you
 - **Attention degrades** — models perform worse on content buried in the middle of very long contexts ("lost in the middle" problem)
 - **Relevance matters more than volume** — a focused 2,000-token context often outperforms 50,000 tokens of loosely relevant material
 
-**Product implication:** Don't design features that naively dump everything into context. Be selective. This is why RAG (Module 5) exists.
+**Product implication:** Don't design features that naively dump everything into context. Be selective. This is why RAG (Module 6) exists.
 
 ---
 

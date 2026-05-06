@@ -1,4 +1,4 @@
-# Module 16: AI Product Management
+# Module 4: AI Product Management
 
 ## What's different about being a PM for AI
 
@@ -288,7 +288,7 @@ The skills that differentiate strong AI PMs from traditional PMs:
 
 ---
 
-## PM Decision Checklist — Module 16
+## PM Decision Checklist — Module 4
 
 **Opportunity identification:**
 - [ ] Does this pass the AI opportunity filter (language task, human value, error tolerance, beats alternative)?

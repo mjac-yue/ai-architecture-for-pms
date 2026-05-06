@@ -23,7 +23,7 @@ flowchart LR
 ## Stage 1: Discover
 *Is this the right problem for AI?*
 
-**Reference modules:** [1 — AI Product Landscape](module-01-ai-product-landscape.md) · [16 — AI Product Management](module-16-ai-product-management.md)
+**Reference modules:** [1 — AI Product Landscape](module-01-ai-product-landscape.md) · [4 — AI Product Management](module-04-ai-product-management.md)
 
 ### Key questions
 - Is there a language or reasoning task at the core of this problem?
@@ -47,7 +47,7 @@ Before any roadmap commitment, run a 1–3 day spike:
 ## Stage 2: Frame
 *What exactly are we building and for whom?*
 
-**Reference modules:** [16 — AI Product Management](module-16-ai-product-management.md)
+**Reference modules:** [4 — AI Product Management](module-04-ai-product-management.md)
 
 ### Complete the AI problem statement
 ```
@@ -76,7 +76,7 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 ## Stage 3: Spec
 *What does the AI need to do, and how will we know it's good enough?*
 
-**Reference modules:** [7 — Prompt Engineering](module-07-prompt-engineering.md) · [5 — RAG](module-05-rag.md) · [6 — Agents](module-06-agents-tool-use.md) · [9 — Safety](module-09-ai-safety-responsible-ai.md) · [13 — Working with Engineers](module-13-working-with-ai-engineers.md)
+**Reference modules:** [8 — Prompt Engineering](module-08-prompt-engineering.md) · [6 — RAG](module-06-rag.md) · [7 — Agents](module-07-agents-tool-use.md) · [10 — Safety](module-10-ai-safety-responsible-ai.md) · [14 — Working with Engineers](module-14-working-with-ai-engineers.md)
 
 ### AI feature brief (complete all sections)
 
@@ -91,11 +91,11 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 - [ ] 2–3 few-shot examples for complex behaviours
 
 **Architecture decisions**
-- [ ] Single call, RAG, or agentic? (→ Module 4)
-- [ ] If RAG: what data sources, who owns freshness, access control requirements? (→ Module 5)
-- [ ] If agentic: what tools, max model calls per request, human-in-the-loop gates? (→ Module 6)
-- [ ] Model tier and justification (→ Module 11)
-- [ ] Is prompt caching applicable? (→ Module 11)
+- [ ] Single call, RAG, or agentic? (→ Module 5)
+- [ ] If RAG: what data sources, who owns freshness, access control requirements? (→ Module 6)
+- [ ] If agentic: what tools, max model calls per request, human-in-the-loop gates? (→ Module 7)
+- [ ] Model tier and justification (→ Module 12)
+- [ ] Is prompt caching applicable? (→ Module 12)
 
 **Quality bar**
 - [ ] What metric defines "good enough to ship"? (acceptance rate / accuracy / task completion)
@@ -108,7 +108,7 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 - [ ] 5+ adversarial inputs (jailbreak attempts, out-of-scope requests)
 
 **Safety and compliance**
-- [ ] Harm taxonomy completed (→ Module 9)
+- [ ] Harm taxonomy completed (→ Module 10)
 - [ ] Red-team exercise scoped
 - [ ] Applicable regulations identified (EU AI Act, GDPR, HIPAA)
 - [ ] Access control requirements at retrieval layer
@@ -125,12 +125,12 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 ## Stage 4: Build
 *Iterate to the quality bar, then integrate.*
 
-**Reference modules:** [13 — Working with Engineers](module-13-working-with-ai-engineers.md) · [10 — Build vs. Buy](module-10-build-vs-buy.md)
+**Reference modules:** [14 — Working with Engineers](module-14-working-with-ai-engineers.md) · [11 — Build vs. Buy](module-11-build-vs-buy.md)
 
 ### Sprint planning checks
 - [ ] Spike findings shared with the team before estimation
 - [ ] Estimate includes prompt iteration cycles, not just integration
-- [ ] Build vs. buy decided for each infrastructure layer (→ Module 10)
+- [ ] Build vs. buy decided for each infrastructure layer (→ Module 11)
 - [ ] System prompt is in version control with a review process
 - [ ] Eval dataset is in version control alongside the prompt
 
@@ -155,7 +155,7 @@ Before connecting to UI and data sources:
 ## Stage 5: Launch
 *Ship the right thing with the right safeguards.*
 
-**Reference modules:** [8 — AI UX Patterns](module-08-ai-ux-patterns.md) · [9 — Safety](module-09-ai-safety-responsible-ai.md) · [14 — Evaluation](module-14-evaluation.md)
+**Reference modules:** [9 — AI UX Patterns](module-09-ai-ux-patterns.md) · [10 — Safety](module-10-ai-safety-responsible-ai.md) · [15 — Evaluation](module-15-evaluation.md)
 
 ### UX checklist
 - [ ] AI scope communicated to users specifically (not "Powered by AI")
@@ -192,7 +192,7 @@ Before connecting to UI and data sources:
 ## Stage 6: Measure & Iterate
 *Close the loop and make it better.*
 
-**Reference modules:** [12 — Data Strategy](module-12-data-strategy.md) · [15 — Measuring AI Product Success](module-15-measuring-ai-product-success.md)
+**Reference modules:** [13 — Data Strategy](module-13-data-strategy.md) · [16 — Measuring AI Product Success](module-16-measuring-ai-product-success.md)
 
 ### Weekly PM review metrics
 | Metric | What a change signals |
@@ -276,17 +276,17 @@ Use this as a final gate before any AI feature ships to production.
 | Understand the AI product market | [Module 1](module-01-ai-product-landscape.md) |
 | Explain how models work to a stakeholder | [Module 2](module-02-how-llms-work.md) |
 | Scope a vision, audio, or image feature | [Module 3](module-03-multimodal-ai.md) |
-| Map an AI feature to its architecture | [Module 4](module-04-ai-product-stack.md) |
-| Spec a knowledge base or Q&A feature | [Module 5](module-05-rag.md) |
-| Design an agentic workflow | [Module 6](module-06-agents-tool-use.md) |
-| Write or review a system prompt | [Module 7](module-07-prompt-engineering.md) |
-| Design the user-facing AI experience | [Module 8](module-08-ai-ux-patterns.md) |
-| Identify risks and run a red-team | [Module 9](module-09-ai-safety-responsible-ai.md) |
-| Decide whether to build or use a vendor | [Module 10](module-10-build-vs-buy.md) |
-| Estimate cost and choose a model tier | [Module 11](module-11-cost-latency.md) |
-| Plan your data strategy and moat | [Module 12](module-12-data-strategy.md) |
-| Work with engineers on AI features | [Module 13](module-13-working-with-ai-engineers.md) |
-| Write acceptance criteria and run evals | [Module 14](module-14-evaluation.md) |
-| Define and track AI product metrics | [Module 15](module-15-measuring-ai-product-success.md) |
-| Manage the full AI PM lifecycle | [Module 16](module-16-ai-product-management.md) |
+| Manage the full AI PM lifecycle | [Module 4](module-04-ai-product-management.md) |
+| Map an AI feature to its architecture | [Module 5](module-05-ai-product-stack.md) |
+| Spec a knowledge base or Q&A feature | [Module 6](module-06-rag.md) |
+| Design an agentic workflow | [Module 7](module-07-agents-tool-use.md) |
+| Write or review a system prompt | [Module 8](module-08-prompt-engineering.md) |
+| Design the user-facing AI experience | [Module 9](module-09-ai-ux-patterns.md) |
+| Identify risks and run a red-team | [Module 10](module-10-ai-safety-responsible-ai.md) |
+| Decide whether to build or use a vendor | [Module 11](module-11-build-vs-buy.md) |
+| Estimate cost and choose a model tier | [Module 12](module-12-cost-latency.md) |
+| Plan your data strategy and moat | [Module 13](module-13-data-strategy.md) |
+| Work with engineers on AI features | [Module 14](module-14-working-with-ai-engineers.md) |
+| Write acceptance criteria and run evals | [Module 15](module-15-evaluation.md) |
+| Define and track AI product metrics | [Module 16](module-16-measuring-ai-product-success.md) |
 | Look up a decision quickly | [Quick Reference](quick-reference.md) |
