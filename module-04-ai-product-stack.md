@@ -1,4 +1,4 @@
-# Module 2: The AI Product Stack
+# Module 4: The AI Product Stack
 
 ## The layers every AI product has
 
@@ -159,7 +159,7 @@ At each layer you can build or buy:
 
 ---
 
-## PM Decision Checklist — Module 2
+## PM Decision Checklist — Module 4
 
 When a new AI feature lands on your roadmap:
 

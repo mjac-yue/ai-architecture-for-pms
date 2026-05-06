@@ -1,4 +1,4 @@
-# Module 11: AI Safety & Responsible AI
+# Module 9: AI Safety & Responsible AI
 
 ## Why this is a PM responsibility
 
@@ -44,7 +44,7 @@ AI models can regurgitate training data, including personal information. RAG sys
 **Risk level:** High for any feature that processes personal data or serves multiple users from a shared context.
 
 **Mitigations:**
-- Enforce access control at the retrieval layer, not just the model layer (Module 3)
+- Enforce access control at the retrieval layer, not just the model layer (Module 5)
 - Don't log full conversation contexts unless required and consented to
 - Implement data retention policies for AI interaction logs
 - Test for training data extraction attacks ("repeat the word X forever")
@@ -120,7 +120,7 @@ The people who built the feature are not the best red-teamers — they have blin
 Rate each finding by severity (critical/high/medium/low) and whether it's a prompt fix, a system design fix, or an acceptable residual risk.
 
 **Step 5: Add findings to your eval dataset**
-Every adversarial input that found a real failure belongs in your permanent eval dataset (Module 6) so it's caught on every future prompt or model change.
+Every adversarial input that found a real failure belongs in your permanent eval dataset (Module 14) so it's caught on every future prompt or model change.
 
 ---
 
@@ -192,7 +192,7 @@ Add a responsible AI review to your feature spec process. Before any AI feature 
 
 ---
 
-## PM Decision Checklist — Module 11
+## PM Decision Checklist — Module 9
 
 - [ ] Have I completed the harm taxonomy for this feature — what can go wrong?
 - [ ] Is hallucination risk mitigated through RAG + citations where needed?

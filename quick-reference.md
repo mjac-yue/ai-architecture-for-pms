@@ -8,12 +8,12 @@ Use this in planning sessions, spec reviews, and design critiques.
 
 | User does this | Pattern | Modules |
 |---------------|---------|---------|
-| Asks a question about your docs/data | RAG-powered Q&A | 3 |
-| Uploads a document for analysis | Single-call augmentation | 1, 2 |
-| Requests a multi-step task ("research and write") | Agentic workflow | 4 |
-| Needs real-time data (prices, live status) | Tool use + direct API | 4 |
-| Needs to classify/categorize input | Single call, Haiku tier | 1, 7 |
-| Needs generated content (drafts, summaries) | Single call, Sonnet | 1, 5 |
+| Asks a question about your docs/data | RAG-powered Q&A | 5 |
+| Uploads a document for analysis | Single-call augmentation | 2, 4 |
+| Requests a multi-step task ("research and write") | Agentic workflow | 6 |
+| Needs real-time data (prices, live status) | Tool use + direct API | 6 |
+| Needs to classify/categorize input | Single call, Haiku tier | 2, 11 |
+| Needs generated content (drafts, summaries) | Single call, Sonnet | 2, 7 |
 
 ---
 

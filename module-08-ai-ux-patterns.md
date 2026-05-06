@@ -137,7 +137,7 @@ Try rephrasing, or search our help center."
 connect you with a support agent? [Yes, connect me] [No, I'll try again]"
 ```
 
-Never let the AI confidently make something up instead of these tiers. You must prompt it to do this (Module 5), and you must design the UI to present it gracefully.
+Never let the AI confidently make something up instead of these tiers. You must prompt it to do this (Module 7), and you must design the UI to present it gracefully.
 
 ---
 

@@ -1,4 +1,4 @@
-# Module 6: Evaluating AI Features
+# Module 14: Evaluating AI Features
 
 ## The problem with shipping AI without evals
 
@@ -202,7 +202,7 @@ If a feature spec doesn't include an eval plan, it's not complete. Ask for:
 
 ---
 
-## PM Decision Checklist — Module 6
+## PM Decision Checklist — Module 14
 
 - [ ] Does the feature spec include acceptance criteria with "must not" conditions and edge cases?
 - [ ] Is there an eval dataset of at least 50 examples (representative + edge cases + adversarial)?

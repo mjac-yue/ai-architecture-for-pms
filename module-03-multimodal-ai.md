@@ -1,4 +1,4 @@
-# Module 13: Multimodal AI
+# Module 3: Multimodal AI
 
 ## Beyond text
 
@@ -254,7 +254,7 @@ When writing specs for features that use non-text modalities:
 
 ---
 
-## PM Decision Checklist — Module 13
+## PM Decision Checklist — Module 3
 
 - [ ] Which modalities does this feature involve? Have I specced input formats, size limits, and quality requirements?
 - [ ] Is the modality capability I'm building on production-ready for my use case, or experimental?
