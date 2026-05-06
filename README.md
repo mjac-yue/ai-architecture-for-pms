@@ -10,6 +10,8 @@ You're a PM who ships AI-powered features. You don't need to write the code, but
 
 Read the modules in order the first time. Return to individual modules as reference when making product decisions. Each module ends with **PM Decision Checklist** — use those in planning and spec reviews.
 
+When starting any AI feature, open the **[AI PM Playbook](ai-pm-playbook.md)** — it maps the full product lifecycle (discover → spec → build → launch → measure) with stage-by-stage checklists and module references. The **[Quick Reference](quick-reference.md)** is for fast lookups during planning sessions and spec reviews.
+
 ---
 
 ## Getting the materials
@@ -51,6 +53,17 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 | 13 | [Working with AI Engineering Teams](module-13-working-with-ai-engineers.md) | Write specs engineers can build from; estimate AI work; manage prompt and model changes safely |
 | 14 | [Evaluating AI Features](module-14-evaluation.md) | Write acceptance criteria for AI; run basic evals before launch |
 | 15 | [Measuring AI Product Success](module-15-measuring-ai-product-success.md) | Define AI quality metrics; instrument features correctly; connect AI performance to business outcomes |
+| **Capstone** | | |
+| 16 | [AI Product Management](module-16-ai-product-management.md) | Run the full AI PM lifecycle: opportunity identification, problem framing, roadmapping, stakeholder communication |
+
+---
+
+## Reference documents
+
+| Document | Purpose |
+|----------|---------|
+| [AI PM Playbook](ai-pm-playbook.md) | Full product lifecycle workflow with stage-by-stage checklists — open this when starting any AI feature |
+| [Quick Reference](quick-reference.md) | Fast lookup: pattern selector, cost estimates, prompt checklist, glossary |
 
 ---
 
