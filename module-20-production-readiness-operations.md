@@ -69,8 +69,8 @@ Feature is generally available. Monitoring continues; eval dataset still runs on
 
 ```mermaid
 flowchart LR
-    A["Internal<br/>dogfooding<br/>1-2 wks"] --> B["Beta cohort<br/>2-4 wks"] --> C["5% → 25%<br/>→ 50% → 100%<br/>2-4 wks"] --> D["Full launch"]
-    A -.- K["Kill switch active<br/>at every stage"]
+    A["Internal<br>dogfooding<br>1-2 wks"] --> B["Beta cohort<br>2-4 wks"] --> C["5% → 25%<br>→ 50% → 100%<br>2-4 wks"] --> D["Full launch"]
+    A -.- K["Kill switch active<br>at every stage"]
     B -.- K
     C -.- K
     D -.- K
@@ -135,9 +135,9 @@ The first AI feature is straightforward. The second forces architectural decisio
 ```mermaid
 flowchart LR
     L["Loose coupling"] --> M["Shared workspace"] --> O["Orchestrated pipeline"]
-    L -.- L1["Each feature<br/>fully independent<br/>separate prompts,<br/>context, evals"]
-    M -.- M1["Features share<br/>conventions, eval<br/>format, observability<br/>but not logic"]
-    O -.- O1["Features explicitly<br/>chain or coordinate<br/>for compound<br/>workflows"]
+    L -.- L1["Each feature<br>fully independent<br>separate prompts,<br>context, evals"]
+    M -.- M1["Features share<br>conventions, eval<br>format, observability<br>but not logic"]
+    O -.- O1["Features explicitly<br>chain or coordinate<br>for compound<br>workflows"]
 ```
 
 **Loose coupling (start here):** Each AI feature is an island. Independent prompts, independent eval datasets, independent retrieval. Easy to ship the first 1–3 features this way; encourages experimentation.

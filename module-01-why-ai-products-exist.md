@@ -25,12 +25,12 @@ Large language models changed this. For the first time, software can do tasks in
 ```mermaid
 flowchart LR
     subgraph Before["Before LLMs"]
-        D1["Deterministic tasks<br/>(rules, math, retrieval)"] --> S1["Software"]
-        L1["Language / judgement tasks<br/>(read, write, synthesise)"] --> H1["Humans"]
+        D1["Deterministic tasks<br>(rules, math, retrieval)"] --> S1["Software"]
+        L1["Language / judgement tasks<br>(read, write, synthesise)"] --> H1["Humans"]
     end
     subgraph After["After LLMs"]
         D2["Deterministic tasks"] --> S2["Software"]
-        L2["Language / judgement tasks"] --> AI["AI + Humans<br/>(now both viable)"]
+        L2["Language / judgement tasks"] --> AI["AI + Humans<br>(now both viable)"]
     end
 ```
 
@@ -105,9 +105,9 @@ AI surfaces information, recommendations, or analysis that helps the user make b
 ```mermaid
 graph LR
     AI["AI Product"]
-    AI --> P1["Effort Reduction<br/>Faster / cheaper than humans"]
-    AI --> P2["Capability Extension<br/>Does what humans can't"]
-    AI --> P3["Decision Improvement<br/>Makes humans more accurate"]
+    AI --> P1["Effort Reduction<br>Faster / cheaper than humans"]
+    AI --> P2["Capability Extension<br>Does what humans can't"]
+    AI --> P3["Decision Improvement<br>Makes humans more accurate"]
 ```
 
 A feature can serve more than one pattern, but it should serve at least one clearly. If you can't articulate which pattern your feature creates value through, that's a sign the value proposition isn't sharp enough.
@@ -120,11 +120,11 @@ LLM-class capability didn't appear overnight. It became viable for product use b
 
 ```mermaid
 flowchart TD
-    C["Compute scale<br/>(GPUs, training infra)"] --> AI["Production-viable AI"]
-    D["Data availability<br/>(internet-scale text)"] --> AI
-    A["Architecture<br/>(transformer, scaling laws)"] --> AI
-    AI --> E["Cost economics<br/>(API access at <$0.01/request)"]
-    E --> P["Product viability<br/>at scale"]
+    C["Compute scale<br>(GPUs, training infra)"] --> AI["Production-viable AI"]
+    D["Data availability<br>(internet-scale text)"] --> AI
+    A["Architecture<br>(transformer, scaling laws)"] --> AI
+    AI --> E["Cost economics<br>(API access at <$0.01/request)"]
+    E --> P["Product viability<br>at scale"]
 ```
 
 **Compute:** Training a frontier model requires hundreds of millions of dollars of GPU time. That kind of compute didn't exist at affordable scale until recently.
@@ -165,15 +165,15 @@ Before any AI feature gets serious investment, run it through this sequence:
 
 ```mermaid
 flowchart TD
-    A["Feature idea"] --> Q1{"Is the task<br/>unstructured / generative<br/>/ judgement-based?"}
-    Q1 -- No --> X1["Deterministic system<br/>is the right answer"]
-    Q1 -- Yes --> Q2{"Does it map to<br/>at least one value pattern?<br/>(effort / capability / decision)"}
-    Q2 -- No --> X2["Value isn't sharp enough<br/>refine the problem first"]
-    Q2 -- Yes --> Q3{"Is occasional error<br/>tolerable here?"}
-    Q3 -- No --> X3["Need a human-review layer<br/>or pick a different problem"]
-    Q3 -- Yes --> Q4{"Would users actually<br/>value the outcome?"}
-    Q4 -- No --> X4["Solving wrong problem<br/>for this user"]
-    Q4 -- Yes --> Y["AI is likely the right tool<br/>→ continue to feasibility spike"]
+    A["Feature idea"] --> Q1{"Is the task<br>unstructured / generative<br>/ judgement-based?"}
+    Q1 -- No --> X1["Deterministic system<br>is the right answer"]
+    Q1 -- Yes --> Q2{"Does it map to<br>at least one value pattern?<br>(effort / capability / decision)"}
+    Q2 -- No --> X2["Value isn't sharp enough<br>refine the problem first"]
+    Q2 -- Yes --> Q3{"Is occasional error<br>tolerable here?"}
+    Q3 -- No --> X3["Need a human-review layer<br>or pick a different problem"]
+    Q3 -- Yes --> Q4{"Would users actually<br>value the outcome?"}
+    Q4 -- No --> X4["Solving wrong problem<br>for this user"]
+    Q4 -- Yes --> Y["AI is likely the right tool<br>→ continue to feasibility spike"]
 ```
 
 A "yes" all the way through doesn't guarantee success — feasibility, cost, quality bar, and competition still matter — but a "no" at any point is a strong signal to stop or rethink.

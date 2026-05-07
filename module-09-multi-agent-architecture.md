@@ -39,11 +39,11 @@ A multi-agent system isn't just multiple model calls. It has three properties th
 
 ```mermaid
 flowchart TD
-    O["Orchestrator<br/>(routing logic)"]
-    A1["Agent A<br/>specialised role<br/>own context<br/>own tools"]
-    A2["Agent B<br/>specialised role<br/>own context<br/>own tools"]
-    A3["Agent C<br/>specialised role<br/>own context<br/>own tools"]
-    S["Shared state<br/>(what gets passed between agents)"]
+    O["Orchestrator<br>(routing logic)"]
+    A1["Agent A<br>specialised role<br>own context<br>own tools"]
+    A2["Agent B<br>specialised role<br>own context<br>own tools"]
+    A3["Agent C<br>specialised role<br>own context<br>own tools"]
+    S["Shared state<br>(what gets passed between agents)"]
 
     O --> A1
     O --> A2
@@ -63,7 +63,7 @@ One agent finishes its task, passes its output to the next agent, which uses it 
 
 ```mermaid
 flowchart LR
-    I["Input"] --> A1["Agent 1<br/>Researcher"] --> A2["Agent 2<br/>Writer"] --> A3["Agent 3<br/>Editor"] --> O["Output"]
+    I["Input"] --> A1["Agent 1<br>Researcher"] --> A2["Agent 2<br>Writer"] --> A3["Agent 3<br>Editor"] --> O["Output"]
 ```
 
 **When to use:**
@@ -114,10 +114,10 @@ A supervisor agent breaks down the task and assigns work to specialised worker a
 
 ```mermaid
 flowchart TD
-    S["Supervisor<br/>plans + reviews"]
-    W1["Worker A<br/>task 1"]
-    W2["Worker B<br/>task 2"]
-    W3["Worker C<br/>task 3"]
+    S["Supervisor<br>plans + reviews"]
+    W1["Worker A<br>task 1"]
+    W2["Worker B<br>task 2"]
+    W3["Worker C<br>task 3"]
 
     S -- "assigns" --> W1
     S -- "assigns" --> W2
@@ -146,8 +146,8 @@ Two or more agents review each other's work, flagging errors or weaknesses. Used
 
 ```mermaid
 flowchart LR
-    A["Agent 1<br/>produces draft"] --> C["Agent 2<br/>critiques"]
-    C --> A2["Agent 1<br/>revises"]
+    A["Agent 1<br>produces draft"] --> C["Agent 2<br>critiques"]
+    C --> A2["Agent 1<br>revises"]
     A2 --> O["Final output"]
 ```
 
@@ -170,9 +170,9 @@ A multi-level structure: a top-level agent delegates to mid-level managers, who 
 
 ```mermaid
 flowchart TD
-    M["Master Agent<br/>overall goal"]
-    M1["Manager A<br/>sub-domain 1"]
-    M2["Manager B<br/>sub-domain 2"]
+    M["Master Agent<br>overall goal"]
+    M1["Manager A<br>sub-domain 1"]
+    M2["Manager B<br>sub-domain 2"]
     W1["Worker"]
     W2["Worker"]
     W3["Worker"]

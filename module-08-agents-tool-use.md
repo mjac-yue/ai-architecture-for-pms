@@ -207,11 +207,11 @@ Once you've decided to build an agent, there's a structured way to think about *
 
 ```mermaid
 flowchart TD
-    L5["5. Distribution<br/>How users access the agent<br/>(UI, API, integrations)"]
-    L4["4. Delegation<br/>What the agent can decide and act on autonomously"]
-    L3["3. Guardrails<br/>What the agent must never do, output validation, safety"]
-    L2["2. Knowledge<br/>Context, RAG, tools, data the agent draws on"]
-    L1["1. Constitution<br/>Role, purpose, behaviour, tone, scope boundaries"]
+    L5["5. Distribution<br>How users access the agent<br>(UI, API, integrations)"]
+    L4["4. Delegation<br>What the agent can decide and act on autonomously"]
+    L3["3. Guardrails<br>What the agent must never do, output validation, safety"]
+    L2["2. Knowledge<br>Context, RAG, tools, data the agent draws on"]
+    L1["1. Constitution<br>Role, purpose, behaviour, tone, scope boundaries"]
 
     L1 --> L2 --> L3 --> L4 --> L5
 ```
