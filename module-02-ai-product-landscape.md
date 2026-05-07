@@ -12,11 +12,11 @@ This module maps the landscape and draws out the PM implications of each categor
 
 ```mermaid
 graph TD
-    F["Foundation Model Providers<br>(Anthropic, OpenAI, Google, Meta)"]
-    T["AI Tooling<br>(infrastructure for builders)"]
-    V["Vertical AI<br>(domain-specific applications)"]
-    H["AI-Native Horizontal Products<br>(new AI-first, broad use cases)"]
-    A["AI-Augmented Incumbents<br>(existing software + AI layer)"]
+    F["Foundation Model Providers (Anthropic, OpenAI, Google, Meta)"]
+    T["AI Tooling (infrastructure for builders)"]
+    V["Vertical AI (domain-specific applications)"]
+    H["AI-Native Horizontal Products (new AI-first, broad use cases)"]
+    A["AI-Augmented Incumbents (existing software + AI layer)"]
 
     F --> T
     F --> V
@@ -183,11 +183,11 @@ Understanding the full stack helps you anticipate threats and opportunities:
 
 ```mermaid
 flowchart TD
-    FMP["Foundation Model Providers<br>Anthropic · OpenAI · Google · Meta"]
-    T["AI Tooling<br>RAG · Eval · Observability · Orchestration"]
-    V["Vertical AI<br>Legal · Health · Finance · Sales"]
-    H["AI-Native Horizontal<br>Search · Dev tools · Creative"]
-    AI["AI-Augmented Incumbents<br>Enterprise software + AI layer"]
+    FMP["Foundation Model Providers Anthropic · OpenAI · Google · Meta"]
+    T["AI Tooling RAG · Eval · Observability · Orchestration"]
+    V["Vertical AI Legal · Health · Finance · Sales"]
+    H["AI-Native Horizontal Search · Dev tools · Creative"]
+    AI["AI-Augmented Incumbents Enterprise software + AI layer"]
 
     FMP -->|"API"| T
     FMP -->|"API"| V

@@ -17,19 +17,19 @@ For each AI capability, evaluate it across four dimensions:
 
 ```mermaid
 flowchart TD
-    Start["AI capability needed"] --> D1{"Is this core to<br>your differentiation?"}
-    D1 -- Yes --> D2{"Can a vendor<br>match the quality?"}
+    Start["AI capability needed"] --> D1{"Is this core to your differentiation?"}
+    D1 -- Yes --> D2{"Can a vendor match the quality?"}
     D2 -- No --> Build["Build"]
-    D2 -- Yes --> D3{"Acceptable data<br>+ vendor risk?"}
+    D2 -- Yes --> D3{"Acceptable data + vendor risk?"}
     D3 -- No --> Build
-    D3 -- Yes --> D4{"Build cost justified<br>vs. buy cost?"}
+    D3 -- Yes --> D4{"Build cost justified vs. buy cost?"}
     D4 -- No --> Buy["Buy"]
     D4 -- Yes --> Build
-    D1 -- No --> D5{"Mature vendor<br>options exist?"}
+    D1 -- No --> D5{"Mature vendor options exist?"}
     D5 -- Yes --> Buy
-    D5 -- No --> D6{"Strategic value<br>in owning it?"}
+    D5 -- No --> D6{"Strategic value in owning it?"}
     D6 -- Yes --> Build
-    D6 -- No --> Wait["Wait / defer<br>(check in 6 months)"]
+    D6 -- No --> Wait["Wait / defer (check in 6 months)"]
 ```
 
 ---

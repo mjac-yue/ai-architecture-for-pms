@@ -17,7 +17,7 @@ graph LR
         II["Image"]
         AI["Audio"]
         VI["Video"]
-        DI["Documents<br>(PDF, spreadsheets)"]
+        DI["Documents (PDF, spreadsheets)"]
     end
 
     subgraph Model

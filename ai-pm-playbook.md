@@ -10,11 +10,11 @@ Each stage maps to the course modules where the concepts are covered in depth.
 
 ```mermaid
 flowchart LR
-    A["1<br>Discover"] --> B["2<br>Frame"]
-    B --> C["3<br>Spec"]
-    C --> D["4<br>Build"]
-    D --> E["5<br>Launch"]
-    E --> F["6<br>Measure<br>+ Iterate"]
+    A["1: Discover"] --> B["2: Frame"]
+    B --> C["3: Spec"]
+    C --> D["4: Build"]
+    D --> E["5: Launch"]
+    E --> F["6: Measure + Iterate"]
     F -->|"new insights"| B
 ```
 

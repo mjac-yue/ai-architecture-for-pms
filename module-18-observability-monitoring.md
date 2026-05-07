@@ -138,10 +138,10 @@ Once you have cost data, model routing — sending different requests to differe
 
 ```mermaid
 flowchart TD
-    R["Incoming request"] --> C{"Classify<br>complexity"}
-    C -- "Simple" --> H["Haiku<br>($0.001/req)"]
-    C -- "Standard" --> S["Sonnet<br>($0.01/req)"]
-    C -- "Complex" --> O["Opus<br>($0.05/req)"]
+    R["Incoming request"] --> C{"Classify complexity"}
+    C -- "Simple" --> H["Haiku ($0.001/req)"]
+    C -- "Standard" --> S["Sonnet ($0.01/req)"]
+    C -- "Complex" --> O["Opus ($0.05/req)"]
 ```
 
 Routing logic can be:
@@ -160,12 +160,12 @@ When something goes wrong in production, the diagnostic flow is different from t
 ```mermaid
 flowchart TD
     S["User reports bad output"] --> Q1{"Reproducible?"}
-    Q1 -- "No" --> P1["Check temperature settings<br>Log full trace next time"]
-    Q1 -- "Yes" --> Q2{"Where in trace did<br>it go wrong?"}
-    Q2 -- "Retrieval" --> R1["Wrong chunks retrieved<br>→ Improve indexing or query"]
-    Q2 -- "Model call" --> R2["Model produced bad output<br>→ Prompt issue or model regression"]
-    Q2 -- "Post-processing" --> R3["Output parsing or formatting<br>→ Code bug, easier to fix"]
-    Q2 -- "Tool use" --> R4["Wrong tool called or bad params<br>→ Tool description or routing logic"]
+    Q1 -- "No" --> P1["Check temperature settings Log full trace next time"]
+    Q1 -- "Yes" --> Q2{"Where in trace did it go wrong?"}
+    Q2 -- "Retrieval" --> R1["Wrong chunks retrieved → Improve indexing or query"]
+    Q2 -- "Model call" --> R2["Model produced bad output → Prompt issue or model regression"]
+    Q2 -- "Post-processing" --> R3["Output parsing or formatting → Code bug, easier to fix"]
+    Q2 -- "Tool use" --> R4["Wrong tool called or bad params → Tool description or routing logic"]
 ```
 
 The biggest mistake in AI debugging: assuming the model was wrong. Most AI failures are *retrieval* failures or *prompt* issues, not the model getting the answer wrong. Trace the full request before blaming the model.

@@ -13,11 +13,11 @@ Most teams have access to the same foundation models. What differentiates one AI
 ```mermaid
 flowchart TD
     M["Model context window"]
-    S["1. Static<br>(always-included content)"] --> M
-    I["2. Indexed lookup<br>(structured DB query)"] --> M
-    R["3. RAG<br>(semantic retrieval)"] --> M
-    T["4. Tool calls<br>(live data via API)"] --> M
-    Mem["5. Memory<br>(persistent user/session state)"] --> M
+    S["1. Static (always-included content)"] --> M
+    I["2. Indexed lookup (structured DB query)"] --> M
+    R["3. RAG (semantic retrieval)"] --> M
+    T["4. Tool calls (live data via API)"] --> M
+    Mem["5. Memory (persistent user/session state)"] --> M
 ```
 
 ### Strategy 1: Static context
@@ -71,11 +71,11 @@ Real AI products usually combine multiple strategies in a layered approach. The 
 
 ```mermaid
 flowchart TD
-    Q["User query"] --> T1{"Tier 1:<br>Cache hit?<br>(prior identical query)"}
-    T1 -- "Yes" --> R1["Return cached answer<br>($0, <100ms)"]
-    T1 -- "No" --> T2{"Tier 2:<br>Indexed lookup<br>or RAG retrieval<br>finds answer?"}
-    T2 -- "Yes" --> R2["Return retrieved answer<br>(low cost, ~1s)"]
-    T2 -- "No" --> T3["Tier 3:<br>Full model generation<br>with retrieval + tools<br>(higher cost, 3-10s)"]
+    Q["User query"] --> T1{"Tier 1: Cache hit?"}
+    T1 -- "Yes" --> R1["Return cached answer ($0, <100ms)"]
+    T1 -- "No" --> T2{"Tier 2: Indexed lookup / RAG?"}
+    T2 -- "Yes" --> R2["Return retrieved answer (low cost, ~1s)"]
+    T2 -- "No" --> T3["Tier 3: Full model generation"]
 ```
 
 **Cost economics example:**

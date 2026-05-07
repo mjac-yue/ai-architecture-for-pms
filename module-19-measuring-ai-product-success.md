@@ -14,9 +14,9 @@ This module covers the full measurement stack for AI products: quality metrics, 
 
 ```mermaid
 graph TD
-    B["Business Outcomes<br>(revenue, retention, NPS, cost savings)"]
-    P["Product Health Metrics<br>(adoption, engagement, task completion)"]
-    Q["AI Quality Metrics<br>(accuracy, acceptance rate, error rate)"]
+    B["Business Outcomes (revenue, retention, NPS, cost savings)"]
+    P["Product Health Metrics (adoption, engagement, task completion)"]
+    Q["AI Quality Metrics (accuracy, acceptance rate, error rate)"]
 
     Q --> P --> B
 ```
@@ -199,14 +199,14 @@ This is the minimum. You cannot retroactively add this data — if it's not logg
 
 ```mermaid
 flowchart TD
-    A["Metric declined"] --> B{"Was there a<br>recent change?"}
-    B -- "Prompt / model update" --> C["Run eval dataset<br>against old vs new"]
+    A["Metric declined"] --> B{"Was there a recent change?"}
+    B -- "Prompt / model update" --> C["Run eval dataset against old vs new"]
     B -- "No change" --> D{"Which metric?"}
-    D -- "Acceptance rate down" --> E["Sample outputs manually<br>Check for quality drift"]
-    D -- "Regeneration rate up" --> F["Review regeneration<br>context — what are<br>users asking for?"]
-    D -- "Adoption down" --> G["Check discoverability,<br>onboarding, UI changes"]
-    D -- "Retention down" --> H["Interview churned<br>AI users"]
-    C --> I["Identify regression<br>and roll back or fix"]
+    D -- "Acceptance rate down" --> E["Sample outputs manually Check for quality drift"]
+    D -- "Regeneration rate up" --> F["Review regeneration context"]
+    D -- "Adoption down" --> G["Check discoverability, onboarding, UI changes"]
+    D -- "Retention down" --> H["Interview churned AI users"]
+    C --> I["Identify regression and roll back or fix"]
 ```
 
 ---

@@ -14,14 +14,14 @@ Understanding the loop your engineers are in helps you know where you fit.
 
 ```mermaid
 flowchart LR
-    S["Spec<br>(PM)"] --> P["Prompt<br>engineering"]
-    P --> E["Evaluate<br>against dataset"]
-    E --> G{"Good<br>enough?"}
+    S["Spec (PM)"] --> P["Prompt engineering"]
+    P --> E["Evaluate against dataset"]
+    E --> G{"Good enough?"}
     G -- No --> P
-    G -- Yes --> I["Integrate +<br>build UI"]
+    G -- Yes --> I["Integrate + build UI"]
     I --> L["Launch"]
-    L --> M["Monitor<br>production"]
-    M --> R["Refine prompt<br>or model"]
+    L --> M["Monitor production"]
+    M --> R["Refine prompt or model"]
     R --> E
 ```
 

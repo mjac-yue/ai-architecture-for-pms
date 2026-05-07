@@ -131,15 +131,15 @@ Never use real-time calls for batch workloads. It's twice the cost for the same 
 
 ```mermaid
 flowchart TD
-    Start["Does the task need:"] --> RT{"Real-time<br>internet access?"}
-    RT -- Yes --> WS["Add web search tool<br>(any model)"]
-    RT -- No --> YD{"Access to<br>your data?"}
-    YD -- Yes --> RAG["Add RAG<br>(any model)"]
-    YD -- No --> CR{"Complex reasoning<br>+ high stakes?"}
+    Start["Does the task need:"] --> RT{"Real-time internet access?"}
+    RT -- Yes --> WS["Add web search tool (any model)"]
+    RT -- No --> YD{"Access to your data?"}
+    YD -- Yes --> RAG["Add RAG (any model)"]
+    YD -- No --> CR{"Complex reasoning + high stakes?"}
     CR -- Yes --> Opus["Opus"]
-    CR -- No --> HV{"High volume<br>+ simple task?"}
+    CR -- No --> HV{"High volume + simple task?"}
     HV -- Yes --> HaikuTest["Test Haiku first"]
-    HaikuTest --> QOK{"Quality<br>sufficient?"}
+    HaikuTest --> QOK{"Quality sufficient?"}
     QOK -- Yes --> Haiku["Haiku"]
     QOK -- No --> Sonnet1["Sonnet"]
     HV -- No --> Sonnet2["Sonnet"]
