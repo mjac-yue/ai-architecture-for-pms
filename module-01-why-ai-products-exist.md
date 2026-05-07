@@ -157,6 +157,23 @@ Combining the capability shift, the three "what AI is good at" criteria, and the
 
 The most expensive AI mistakes happen when this prior question is skipped. A team builds a sophisticated AI feature for a task that should have been a button or a database query — adding cost, complexity, hallucination risk, and ongoing maintenance burden in exchange for marginal user value.
 
+### Good-enough threshold by use case
+
+When evaluating "is occasional error tolerable?" in the AI opportunity filter, you need a reference point — not just an abstract yes/no. The table below gives approximate acceptable error rates by use case category, based on typical user tolerance and consequence of error.
+
+| Use Case Category | Acceptable Error Rate | Why |
+|---|---|---|
+| Code autocomplete | ~60% | User reviews every suggestion before accepting; wrong ones are dismissed instantly with no downstream consequence |
+| Email drafting | ~75% | User reads and edits before sending; saves time even when the draft needs significant revision |
+| Support ticket triage | ~85% | Misrouted tickets waste agent time but are recoverable; some error rate is accepted to gain throughput |
+| Content moderation | ~90% | Human review layer catches escalations; the AI handles volume, humans handle edge cases |
+| Medical documentation | ~95% | Clinician reviews before sign-off, but errors erode trust rapidly and carry liability risk |
+| Financial trading signals | ~99%+ | Signals may trigger automated execution with real money; errors are immediate and often unrecoverable |
+
+These thresholds exist on a spectrum driven by two factors: (1) whether a human reviews before consequential action is taken, and (2) how costly or reversible an error is. As you move down the table, both factors tighten.
+
+**PM decision:** Before committing to an AI approach, identify your threshold. If the current technology can't reach it, AI isn't ready for your use case — wait, add a human review layer, or choose a different approach.
+
 ---
 
 ## The "AI rightness" test

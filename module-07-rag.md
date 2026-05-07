@@ -13,11 +13,11 @@ Most teams have access to the same foundation models. What differentiates one AI
 ```mermaid
 flowchart TD
     M["Model context window"]
-    S["1. Static (always-included content)"] --> M
-    I["2. Indexed lookup (structured DB query)"] --> M
-    R["3. RAG (semantic retrieval)"] --> M
-    T["4. Tool calls (live data via API)"] --> M
-    Mem["5. Memory (persistent user/session state)"] --> M
+    S["Static (always-included content)"] --> M
+    I["Indexed lookup (structured DB query)"] --> M
+    R["RAG (semantic retrieval)"] --> M
+    T["Tool calls (live data via API)"] --> M
+    Mem["Memory (persistent user/session state)"] --> M
 ```
 
 ### Strategy 1: Static context
@@ -84,6 +84,20 @@ flowchart TD
 - Tier 3 (full generation): $0.015 per request, ~5s
 
 Even if 30% of queries can be answered at Tier 1 or Tier 2, you've cut costs significantly without sacrificing quality on the harder queries. PM implication: don't design AI features so every query takes the most expensive path. Design tiered resolution from the start.
+
+### Volume split in practice
+
+In a mature system with well-tuned caching and retrieval, the distribution of traffic across tiers looks approximately like this:
+
+| Tier | Mechanism | Target share of queries | Cost per query |
+|------|-----------|------------------------|----------------|
+| **Tier 1** — Cache / exact match | Deterministic lookup; no model call | ~80% | ~$0 |
+| **Tier 2** — Retrieval-only | Retrieved context + lightweight generation; cached prompt where possible | ~15% | ~$0.002 |
+| **Tier 3** — Full generation | Novel query; full context assembly + model call | ~5% | ~$0.015 |
+
+This is the goal state, not day-one reality. On launch, most systems are inverted — the majority of queries hit Tier 3 because caches are cold, exact-match patterns haven't been identified, and retrieval hasn't been tuned. The 80/15/5 split is earned over time through: identifying high-frequency query patterns and caching their answers, improving retrieval precision so fewer queries need Tier 3 to recover from bad retrieval, and building an exact-match index for the most common intent types.
+
+**PM implication for cost estimation at scale:** Do not use Tier 3 unit economics to project your full cost at volume. A product with 100,000 daily queries running 100% at Tier 3 costs ~$1,500/day. The same product at the 80/15/5 split costs ~$115/day — an order-of-magnitude difference. When reviewing cost projections for an AI feature, ask: "What tier distribution are we assuming, and what's the plan to move queries toward lower tiers over time?"
 
 ---
 

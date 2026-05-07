@@ -244,33 +244,195 @@ Minimum viable eval:
 
 ---
 
+## Decision trees
+
+### Should this be AI?
+
+- Does the task require understanding natural language or unstructured input?
+  - Yes → Does the correct response vary by context (not a fixed lookup)?
+    - Yes → Is a "good enough" answer acceptable (not exact)?
+      - Yes → AI is appropriate
+      - No → AI may work, but requires strong guardrails and explicit quality bar
+    - No → Could be solved with search or lookup — consider a simpler approach first
+  - No → Is the logic too complex to express as rules?
+    - Yes → AI might help; evaluate a hybrid approach with deterministic fallback
+    - No → Use deterministic logic — don't add AI for AI's sake
+
+### Model tier selection
+
+- What is the task complexity?
+  - Simple (classification, routing, extraction, yes/no) → Fast tier (Haiku / GPT-4o mini)
+  - Moderate (generation, analysis, multi-step with guidance) → Balanced tier (Sonnet / GPT-4o)
+  - Complex (novel reasoning, ambiguous problems, creative synthesis) → Frontier tier (Opus / GPT-4)
+- Refinement factors — adjust tier after initial selection:
+  - Volume is high → downgrade tier (cost scales linearly)
+  - Stakes are high (mistakes expensive or dangerous) → upgrade tier
+  - Latency budget is tight (< 500ms) → downgrade tier
+  - Eval scores fail at lower tier → upgrade tier
+  - Lower tier passes eval at acceptable quality → stay or downgrade
+
+### Context architecture choice
+
+- How much knowledge does the skill need?
+  - Small (< 5 pages of rules/facts) → Static context (always loaded in system prompt)
+  - Medium (5–50 pages, structured) → Indexed lookup (YAML/JSON keyed retrieval)
+  - Large (50+ pages, or growing, prose) → RAG / vector database
+- Is every piece of context needed for every query?
+  - Yes → Load everything (Tier 1 static). Accept the token cost.
+  - No → Use tiered resolution:
+    - Tier 1: Always loaded (identity, universal rules)
+    - Tier 2: Loaded on demand (domain knowledge matched to query type)
+    - Tier 3: Retrieved by search (large knowledge base, specific facts)
+- Is the knowledge structured with known keys, or prose with unpredictable queries?
+  - Structured with known keys → Indexed lookup
+  - Prose, unpredictable queries → RAG
+  - Real-time or live data → Tool call to live system
+
+### Guardrail strategy
+
+- What is the failure mode?
+  - Predictable pattern (PII, credentials, profanity, injection strings) → Deterministic hook (regex, blocklist, pattern match) — zero latency cost
+  - Semantic failure (hallucination, tone, relevance, off-brand) → AI-based guardrail (model-as-judge on output) — adds latency and cost
+  - Behavioral failure (wrong tool use, unauthorized action, loop) → Deterministic hook + circuit breaker at PreToolUse layer
+- By product type:
+  - Consumer product, open-ended input → prioritize input injection defense + output content scan
+  - Enterprise internal tool → prioritize data leakage (PII/credentials) + tool access control
+  - High-stakes domain (legal, medical, financial) → add AI-based hallucination check on every factual claim
+  - Low-stakes utility (drafting, summarization) → deterministic format check sufficient to start
+
+### Multi-agent vs. single agent
+
+- Does the task require multiple distinct capabilities?
+  - No → Single agent, single skill. Keep it simple.
+  - Yes → Can a single agent handle all capabilities with good quality?
+    - Yes (fewer than 5 skills, shared context) → Single agent with multiple skills and a router
+    - No → Multi-agent required. Choose pattern:
+      - Tasks are independent → Fan-out / Fan-in (parallel execution)
+      - Tasks build on each other sequentially → Sequential handoff (pipeline)
+      - One task needs to oversee and review others → Supervisor / Worker
+      - Multiple levels of delegation needed → Hierarchical delegation (use sparingly)
+- Additional signals that force multi-agent:
+  - Context window too small to hold all skills' knowledge
+  - Different skills need different model tiers
+  - Different teams own different skills (organizational boundary = agent boundary)
+  - Skills have incompatible or dangerous tool sets that must be isolated
+
+### Evaluation strategy
+
+- What aspect of quality are you evaluating?
+  - Format (structure, length, schema compliance) → Automated checks (regex, JSON parse, length count) — run on every request in production
+  - Factual accuracy (correct information, no hallucination) → Model-as-judge with reference answer + deterministic checks — run eval suite on every code or prompt change
+  - Reasoning quality (logic, completeness, insight) → Model-as-judge with detailed rubric — run eval suite on every change
+  - User satisfaction (helpful, appropriate, trustworthy) → Human evaluation + production feedback signals — monthly human eval cycle + continuous monitoring
+  - Safety (harmful content, data leakage, injection) → Deterministic checks + adversarial eval cases — deterministic on every request, adversarial on every change
+- What stage is the product at?
+  - Prototype → 10–20 golden examples minimum
+  - Beta → 50–100 cases (golden + edge cases + production failures)
+  - Production → 100–500 cases (all above + adversarial + cross-domain regression)
+  - Platform → 500+ cases with per-domain suites and routing eval
+
+### Launch strategy / rollout gate criteria
+
+- What is the blast radius if the feature fails?
+  - Low (internal users, non-critical workflow) → Ship to all internal users; monitor basic quality dashboard
+  - Medium (external users, non-critical feature) → Phased rollout: 1% → 10% → 50% → 100%; advance only after 24–48 hours with no quality degradation
+  - High (external users, critical workflow, regulated domain) → Shadow mode first → opt-in beta → phased rollout with human review at each gate
+- Gate criteria before advancing each rollout phase:
+  - Eval scores meet defined quality bar
+  - Error rate below 5%
+  - Guardrail fire rate below 10%
+  - Cost per request within 2× estimate
+  - No P0 safety issues open
+  - Rollback plan tested and named owner assigned
+
+### Cost optimization
+
+- Where is the highest cost?
+  - Input tokens (large prompts / context) → Context tiering: load less per request (20–40% savings); prompt compression (10–20% savings)
+  - Output tokens (long responses) → Output length constraints (5–15% savings); structured output to force concise formats
+  - Model tier (expensive model for all queries) → Model routing: route simple queries to Fast tier (40–70% savings) — implement this first
+  - Volume (too many requests) → Response caching for repeated queries (10–30% savings); batch processing for non-real-time work (20–30% savings)
+- Optimization order (highest impact, lowest risk first):
+  - 1. Model routing (simple queries to Fast tier)
+  - 2. Context tiering (load only what each query needs)
+  - 3. Response caching (repeated queries)
+  - 4. Prompt compression (shorten system prompt)
+  - 5. Output constraints (shorter responses)
+
+### When to iterate vs. ship vs. stop
+
+- Do eval scores meet the quality bar?
+  - Yes → Are guardrails in place for known failure modes?
+    - Yes → Ship. Improve from production signals.
+    - No → Add guardrails, then ship.
+  - No → Is the last iteration showing meaningful improvement (> 2%)?
+    - Yes → Keep iterating — you are still learning
+    - No → Diagnose root cause:
+      - Stuck on context → Add more or better knowledge
+      - Stuck on reasoning → Try a higher model tier
+      - Stuck on scope → Reduce scope (narrow the skill)
+      - Fundamentally limited → Reassess whether AI is the right approach
+- When to stop investing entirely:
+  - 3+ iterations with < 2% improvement (diminishing returns)
+  - Remaining failures are all edge cases (< 5% of queries) — ship with guardrails
+  - Improvement requires a fundamentally different architecture — decide: pivot or accept
+  - Cost of further improvement exceeds the value it would deliver
+  - User testing shows current quality is "good enough" — ship and invest elsewhere
+
+---
+
+## Red flags
+
+| Signal | Threshold | What it likely means | Immediate action |
+|--------|-----------|---------------------|-----------------|
+| Token fill rate (context approaching full) | > 80% of context window used | Tiered resolution is missing; static context is too large | Implement context tiering; audit what is loaded on every request |
+| Eval score improving but specific failure cases worsening | Any regression on previously passing cases | Overfitting the prompt to recent failures; earlier behaviors broken | Run full eval suite; treat regression as a blocker before shipping |
+| P95 latency above budget | > 10 minutes sustained | Model provider degradation, context size growth, or routing failure | Check provider status; review recent context size changes; alert on-call |
+| Cost per request above baseline | > 2× baseline | Context bloat, model tier regression, caching miss, or abuse pattern | Review per-request token logs; check caching hit rate; inspect recent prompt changes |
+| Regeneration rate | > 20% | Output quality not meeting user expectations | Investigate failure patterns; add cases to eval suite; review top regenerated queries |
+| Safety filter trigger rate | > 5% | Over-sensitive guardrails or underlying input quality issue; possible abuse | Audit triggered cases; tune thresholds; check for coordinated adversarial input |
+| Empty response rate | > 1% | Guardrail over-blocking, context overflow, or model refusal pattern | Review empty response logs; check guardrail false positive rate; inspect context sizes |
+| Acceptance rate drop | > 5% week-over-week | Quality regression, model drift after provider update, or scope mismatch | Compare recent model version; re-run eval suite; review what changed in the past week |
+
+---
+
 ## Glossary
 
 | Term | Plain English |
 |------|--------------|
-| **Spike** | 1–3 day engineering investigation to validate if AI can do a task before committing to a timeline |
 | **Acceptance rate** | % of AI outputs users accept without modification — primary quality proxy |
-| **Regeneration rate** | % of outputs where the user asks the model to try again |
-| **Red-teaming** | Deliberately trying to make the AI produce unsafe or policy-violating outputs before launch |
-| **Data flywheel** | Self-reinforcing cycle: more users → more data → better AI → more users |
-| **Vertical AI** | AI product purpose-built for a specific industry or workflow |
-| **AI-native** | Product built AI-first from the ground up, no pre-AI baseline |
-| **AI-augmented** | Existing software product with AI capabilities added |
-| **Multimodal** | AI that processes or generates multiple content types (text, image, audio, video) |
-| **Token** | ~4 characters; the unit of cost and context |
-| **Context window** | Total text the model can see at once |
-| **RAG** | Finding relevant docs before the model call |
-| **Embedding** | Converting text to numbers for semantic search |
-| **Vector database** | Database optimized for similarity search |
-| **Tool use** | Model requesting an action from an external system |
 | **Agent** | AI system that takes multiple steps and uses tools |
-| **MCP** | Standard for connecting AI models to tools |
-| **Fine-tuning** | Updating model weights on new training data |
-| **Prompt injection** | User input that attempts to override system instructions |
-| **Temperature** | Controls output randomness (0=deterministic, 1=varied) |
-| **Streaming** | Returning tokens as they generate, not waiting for completion |
-| **Prompt caching** | Storing repeated context to reduce cost |
 | **Batch API** | Async, lower-cost processing for non-real-time workloads |
-| **Hallucination** | Confident, plausible-sounding output that is factually wrong |
+| **Blast radius** | The set of system components affected if a given change or failure occurs |
+| **Calibrated trust** | UI and UX design that helps users develop accurate mental models of when to trust AI output and when to verify |
+| **Compound AI system** | A system that combines multiple AI models, tools, and retrieval mechanisms to accomplish tasks no single model call could handle |
+| **Constitution** | The foundational layer of an agent's system prompt: role, purpose, scope, and behavioural boundaries |
+| **Context window** | Total text the model can see at once |
+| **Data flywheel** | Self-reinforcing cycle: more users → more data → better AI → more users |
+| **Embedding** | Converting text to numbers for semantic search |
 | **Eval** | Structured test of AI quality on known inputs |
+| **Eval-driven development** | The practice of writing eval cases before or alongside building AI features, analogous to test-driven development |
+| **Fine-tuning** | Updating model weights on new training data |
+| **Hallucination** | Confident, plausible-sounding output that is factually wrong |
 | **LLM-as-judge** | Using a model to evaluate another model's output |
+| **MCP** | Standard for connecting AI models to tools |
+| **Model drift** | Gradual change in a model's output distribution over time due to provider-side updates, distinct from data drift |
+| **Multimodal** | AI that processes or generates multiple content types (text, image, audio, video) |
+| **Prompt caching** | Storing repeated context to reduce cost |
+| **Prompt injection** | User input that attempts to override system instructions |
+| **Quality flywheel** | The self-reinforcing cycle where better evals → better prompts → better outputs → more user acceptance → more labeled data → better evals |
+| **RAG** | Finding relevant docs before the model call |
+| **Red-teaming** | Deliberately trying to make the AI produce unsafe or policy-violating outputs before launch |
+| **Regeneration rate** | % of outputs where the user asks the model to try again |
+| **Shadow mode** | Running an AI system in parallel with an existing system to compare outputs without exposing users to the AI output |
+| **Skill** | The atomic unit of an AI product: a system prompt + context injection + tool definitions + guardrails + output specification, composable into larger workflows |
+| **Spike** | 1–3 day engineering investigation to validate if AI can do a task before committing to a timeline |
+| **Streaming** | Returning tokens as they generate, not waiting for completion |
+| **Temperature** | Controls output randomness (0=deterministic, 1=varied) |
+| **Tiered resolution** | A cost-optimisation pattern where cheap/fast paths (cache, retrieval) handle the majority of queries; expensive generation paths handle only what lower tiers can't |
+| **Token** | ~4 characters; the unit of cost and context |
+| **Tool use** | Model requesting an action from an external system |
+| **Vector database** | Database optimized for similarity search |
+| **Vertical AI** | AI product purpose-built for a specific industry or workflow |
+| **AI-augmented** | Existing software product with AI capabilities added |
+| **AI-native** | Product built AI-first from the ground up, no pre-AI baseline |

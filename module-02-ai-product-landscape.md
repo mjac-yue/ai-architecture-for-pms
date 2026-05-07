@@ -177,6 +177,40 @@ Each category sits on top of the foundation model layer. The arrow represents de
 
 ---
 
+## Where does your company fit?
+
+The five categories above describe the external landscape. But before asking "which category are our competitors in?", ask a more immediate question: what is your company's relationship to AI as a strategic matter? Three archetypes capture most company positions.
+
+### Archetype 1: AI-First
+
+Your company is building AI as the core product — AI is not a feature added to something else, it is the thing you are selling. The AI capability itself is why the product exists.
+
+**What the AI strategy looks like:** You are competing primarily on model quality, AI UX, and the depth of AI integration. Every product decision is evaluated against the question: does this make the AI more capable or more useful? You may be building on foundation models via API or fine-tuning on proprietary data, but the AI interaction is the primary user experience, not a supporting layer.
+
+**PM decisions that are most critical:** Model selection and evaluation rigor (your quality bar is your product), defining the interaction model (how users direct the AI), and building eval infrastructure early so quality doesn't regress as you ship fast.
+
+---
+
+### Archetype 2: AI-Enhanced
+
+You have an existing software product — with existing users, workflows, and revenue — and you are adding AI capabilities to improve it. The product existed before AI; AI makes it better.
+
+**What the AI strategy looks like:** You are layering AI into specific workflows where it adds the most lift: drafting, summarising, classifying, suggesting. The AI features must integrate cleanly with the existing product UX, because users have a baseline expectation from the product they already use. Your advantage is the proprietary data and workflow context you already have from your user base.
+
+**PM decisions that are most critical:** Which workflows to target first (prioritise by effort reduction potential and user frequency), how to make AI features discoverable without being intrusive, and how to measure AI feature quality separately from core product metrics so a mediocre AI feature doesn't erode trust in the baseline product.
+
+---
+
+### Archetype 3: AI-Enabled
+
+You are not building AI products for external customers. You are using AI internally — to make your own teams faster, your operations more efficient, or your internal decision-making better. AI is a capability multiplier for your company, not a product you sell.
+
+**What the AI strategy looks like:** You are deploying AI for internal use cases: automating research, accelerating content production, speeding up support operations, improving internal tooling. The ROI question is "how much faster or cheaper does this make our team?" rather than "how much will customers pay for this?"
+
+**PM decisions that are most critical:** Identifying the internal workflows with the highest time cost (your best candidates), managing data access and security for internal AI tools, and building internal eval and feedback loops so internal tools improve rather than plateau after launch.
+
+---
+
 ## How the categories interact
 
 Understanding the full stack helps you anticipate threats and opportunities:

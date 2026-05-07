@@ -209,6 +209,67 @@ Not every feature needs AI. Adding AI to the wrong place creates complexity with
 
 ---
 
+## Progressive autonomy model
+
+How much agency you give the AI is a product decision with real consequences. Too little autonomy and the feature adds friction without saving work. Too much and errors compound before anyone catches them. The right level depends on trust earned and stakes involved.
+
+There are five levels of AI autonomy:
+
+**Level 1 — Suggest**
+The AI shows options and the human picks from them. The user takes every action.
+
+- When appropriate: New features, new users, high-stakes domains, any situation where the AI's reliability is unproven.
+- Trust/stakes threshold: No established trust; any stakes level.
+- Example: An AI that generates three possible email subject lines and the user clicks one to use it.
+
+**Level 2 — Recommend**
+The AI shows ranked options with reasoning. The user still takes the action, but the AI signals which option it thinks is best and why.
+
+- When appropriate: The AI has demonstrated reasonable accuracy on the task, and users benefit from the reasoning but want final say.
+- Trust/stakes threshold: Some established reliability; medium or lower stakes.
+- Example: An AI that ranks three pricing tiers for a new customer with a brief rationale for each, and the sales rep selects one to present.
+
+**Level 3 — Act with confirmation**
+The AI proposes a specific action and the user approves before it executes. The AI does the work of deciding; the human does the work of reviewing.
+
+- When appropriate: The AI is reliable enough to propose the right action most of the time, but the action has consequences that make a brief human checkpoint worthwhile.
+- Trust/stakes threshold: Established reliability; medium stakes with some reversibility.
+- Example: An AI that drafts and shows a support reply and waits for the agent to click "Send."
+
+**Level 4 — Act with notification**
+The AI acts and then tells the user what it did. The user is informed rather than asked.
+
+- When appropriate: The AI is highly reliable on a specific, well-bounded task; actions are low-stakes or easily reversible; requiring confirmation would create more friction than value.
+- Trust/stakes threshold: High reliability demonstrated over time; low stakes or high reversibility.
+- Example: An AI that automatically files a support ticket into the correct category and notifies the agent: "I've tagged this as a billing issue and routed it to the billing queue."
+
+**Level 5 — Fully autonomous**
+The AI acts silently within defined boundaries. The user audits periodically rather than reviewing each action.
+
+- When appropriate: Routine, repetitive tasks where the AI's accuracy is very high, the actions are low-risk, and constant notification would be noise.
+- Trust/stakes threshold: Very high proven reliability; low stakes; user has explicitly opted in.
+- Example: An AI that runs nightly data quality checks, flags anomalies for human review, and takes no action unless a threshold is crossed.
+
+**The governing principle:** Start at Level 1 for every new feature and every new user. Advance to higher levels only when reliability at the current level is proven, users have opted in, and guardrails are strong enough to catch errors at the higher level. Trust is earned incrementally, not granted upfront.
+
+---
+
+## Failure severity hierarchy
+
+Not all AI failures are equal. Knowing the severity of a potential failure helps you decide how much to invest in preventing it, how quickly to respond when it happens, and what recovery action is required.
+
+| Severity | Description | Example | User impact | Required recovery action |
+|---|---|---|---|---|
+| **Cosmetic** | Wrong tone, minor formatting error, slightly awkward phrasing | Response is technically correct but overly formal for the context | Mild friction; user still gets the right answer | Improve prompt; no urgency |
+| **Functional** | Wrong answer, missing key information, incorrect data | AI states the wrong renewal date for a user's subscription | User makes a decision based on incorrect information | Fix the root cause (prompt or context gap); add to eval dataset |
+| **Trust-eroding** | Confidently wrong, contradicts itself, or contradicts what the AI said earlier in the same session | AI states a product has a feature it does not have, with high confidence | User loses faith in the feature; may stop using it | High-priority fix; review all similar outputs; consider temporary scope reduction |
+| **Harmful** | Offensive content, privacy violation, dangerous advice | AI reveals another user's account details; provides advice that could cause physical harm | Direct harm to user; legal and reputational exposure | Immediate incident response; pull feature if necessary; legal review |
+| **Catastrophic** | Irreversible real-world action taken based on AI error | AI-triggered automation deletes production data; AI sends an external communication with false claims | Irreversible damage; cannot be undone by fixing the prompt | Immediate feature rollback; incident post-mortem; architectural review of action permissions |
+
+**PM decision:** For Cosmetic and Functional failures, standard engineering processes apply. For Trust-eroding failures, treat as a P1 — user trust is a product asset that takes time to rebuild. For Harmful and Catastrophic failures, the response is an incident, not a bug, and requires executive involvement, user communication, and architectural remediation.
+
+---
+
 ## PM Decision Checklist — Module 11
 
 - [ ] Does the UI communicate the AI's scope explicitly — what it can and can't do?
@@ -220,3 +281,5 @@ Not every feature needs AI. Adding AI to the wrong place creates complexity with
 - [ ] Is there a feedback mechanism (at minimum thumbs up/down)?
 - [ ] Have I reviewed this feature against the anti-patterns list?
 - [ ] Does this feature genuinely need AI — or would a deterministic approach work better?
+- [ ] What autonomy level is appropriate for launch, and what conditions would justify advancing to the next level?
+- [ ] Have I mapped the failure severity levels for this feature and defined recovery actions for each?

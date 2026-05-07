@@ -12,6 +12,24 @@ This module gives you a practical evaluation framework that doesn't require an M
 
 ---
 
+## The eval hierarchy
+
+Evaluation exists at five levels, from the fastest and cheapest to the slowest and most expensive. Each level catches different failure modes.
+
+| Level | Name | What it does | Run frequency |
+|-------|------|-------------|---------------|
+| 1 | Unit tests | Deterministic assertions on known inputs — exact match, contains, excludes | On every change |
+| 2 | Automated checks | Regex, schema validation, keyword presence, format checks — validates output properties without exact match | On every change |
+| 3 | Model-as-judge | A second LLM evaluates the primary model's output quality against a rubric | On every change or nightly |
+| 4 | Human evaluation | Domain experts review a sampled set of outputs against written criteria | Weekly or monthly |
+| 5 | Production monitoring | Real user signals — accept rate, edit rate, regeneration rate, thumbs up/down | Continuously |
+
+**The progression:** Run Levels 1 and 2 continuously on every prompt, model, or context change — they are fast and cheap. Run Level 3 on every change or nightly. Run Level 4 periodically (weekly or monthly) to calibrate your automated evaluators and catch nuance they miss. Level 5 is always running in the background once the feature is live, and its signals feed back into all lower levels.
+
+No single level is sufficient. Unit tests catch hard structural failures but miss quality. Model-as-judge scales subjective assessment but has its own biases. Human eval is ground truth but too slow to run on every change. Production signals are the most real but arrive too late to prevent a bad launch.
+
+---
+
 ## The three layers of AI evaluation
 
 ### Layer 1: Functional correctness
@@ -73,6 +91,36 @@ Total: 50–60 examples is enough to start. Add more as you find failure modes.
 - Before any significant prompt change
 - Before any model upgrade (switching from Sonnet 4.5 to 4.6, etc.)
 - After production failures (add the failure case to the dataset)
+
+---
+
+## Building an eval suite: 4 steps
+
+An eval suite is not a one-time artifact — it is a living system you build incrementally. Follow this sequence.
+
+**Step 1: Start with golden examples**
+
+Before engineering begins, the PM authors 3–5 ideal input/output pairs. These are the "perfect answer" cases — what the feature should produce when everything works. They serve as the design specification and the first ground truth for all automated evaluators.
+
+3–5 golden examples is a deliberately low bar. The point is to start with something authoritative, not to be exhaustive. A golden example written by the PM carries more signal than 50 synthetic examples generated without domain knowledge.
+
+**Step 2: Add failure cases from the spike**
+
+During feasibility testing (the initial build and exploration phase), document every input that produced a bad or unexpected output. Each one becomes an eval case. The prototype's job is not to be good — it is to make failure modes visible. Capture them all.
+
+**Step 3: Add edge cases**
+
+Systematically add inputs that represent the boundaries of the feature's expected scope:
+- Empty input (user submits nothing)
+- Maximum-length input (user submits a very long document or query)
+- Adversarial input (attempts to override instructions, inject prompts, or manipulate behavior)
+- Multilingual input (queries in languages other than the primary supported language)
+
+These cases don't need to "pass" in the same way happy-path cases do — they need to pass in the sense that the feature handles them gracefully and predictably.
+
+**Step 4: Add production failures continuously**
+
+Every time a production failure reveals a new failure mode — one not already represented in the eval suite — add it. This is the most important step and the one most teams skip. The eval suite should grow monotonically after launch. Every failure that ships twice is a process failure.
 
 ---
 
@@ -186,6 +234,20 @@ Once launched, set up monitoring for:
 | Flagged outputs | Harmful or inappropriate content | Automated content classifiers |
 
 Set a baseline from the first week, then alert on significant deviations.
+
+---
+
+## Eval anti-patterns
+
+| Anti-pattern | What it looks like | Why it fails |
+|---|---|---|
+| Testing only happy path | Eval dataset contains representative queries but no edge cases, empty inputs, or adversarial examples | The model looks great on the eval and fails on the first unusual production input |
+| Eval dataset that never grows | The same 50 cases that were written at launch are still the entire eval suite two years later | Production failures are not systematically added, so the same failures can ship repeatedly |
+| Metric without a threshold | The team tracks an average quality score but has no defined pass/fail line | There is no objective basis for a go/no-go decision; every launch becomes a negotiation |
+| Human eval without a rubric | Reviewers score outputs based on personal judgment with no written criteria | Scores are inconsistent across reviewers and over time; inter-rater agreement is low |
+| Treating eval score as a launch gate only (not a continuous signal) | Evals are run once before launch and then discontinued | Quality degrades post-launch through model drift, data changes, and prompt edits — with no detection |
+| LLM-as-judge with no calibration | A model-as-judge evaluator is set up and trusted without checking its scores against human judgments | The judge has systematic biases (preferring longer answers, penalizing uncertainty) that make the scores misleading |
+| Evaluating output only, not retrieval | Evals score the final response but do not check whether the retrieved context was correct | Retrieval failures are invisible; the team improves the prompt while the real problem is the RAG index |
 
 ---
 

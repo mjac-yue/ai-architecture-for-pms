@@ -279,6 +279,39 @@ Build bottom-up. Don't build distribution before guardrails are in place; don't 
 
 ---
 
+## Tools as product surface
+
+Tool definitions — name, description, parameters, error handling — are product decisions, not just engineering details. The model uses tool descriptions to decide when and how to call them. A vague tool description leads to wrong tool selection: the model calls a tool when it shouldn't, misses a tool it should use, or passes incorrect parameters.
+
+This means that writing a tool description is equivalent to writing a product requirement. It needs to specify what the tool does, when to use it, when not to use it, and what parameters mean. The engineering team implements the tool; the PM (or PM working with engineering) owns the description that governs model behaviour.
+
+**Graceful failure: required behaviour for every tool**
+
+Every tool will fail in production — APIs go down, databases time out, queries return nothing. The model's behaviour on failure is a product decision you must specify. If you don't, engineers default to whatever the model does naturally — which is often to hallucinate a result or silently skip the step.
+
+| Failure scenario | What happens | Recommended model behaviour |
+|-----------------|-------------|----------------------------|
+| **Tool returns an error** (API error, access denied, invalid parameters) | The tool call fails with an error code or message | Surface the failure clearly to the user; suggest an alternative or next step; do not retry more than once without user instruction |
+| **Tool returns empty** (query succeeds but finds nothing) | The tool returns a null result, empty array, or zero rows | Tell the user explicitly that nothing was found; do not invent results or guess what the answer might be |
+| **Tool returns stale data** (data is present but the timestamp indicates it is old) | The tool result includes a timestamp or freshness indicator that is beyond the acceptable threshold | Flag the staleness to the user before presenting the result; let the user decide whether to proceed with outdated information |
+| **Tool times out** (the tool call does not return within the allowed window) | The call exceeds the timeout threshold | Inform the user the request took too long; offer to try again or suggest a manual alternative; do not hang indefinitely |
+
+---
+
+## Router types
+
+The router is the component that decides which skill, tool, or sub-agent handles a given input. There are three types, each with a different mechanism, appropriate use case, and failure mode. Choosing the right router type is a product architecture decision — it affects cost, latency, and how well the system handles edge cases.
+
+| Router type | How it works | When to use it | Main risk |
+|-------------|-------------|---------------|-----------|
+| **Rule-based** | Deterministic if/else logic using keyword matching, regex, or exact conditions | Products with clearly distinct, non-overlapping skill domains; cost-sensitive or high-volume products where every millisecond counts | Brittle — misses paraphrases, handles ambiguity poorly, requires manual maintenance as the product grows |
+| **Classifier** | A small ML model (or fast LLM call) classifies the input into a category, then routes to the matching skill | Products where user language varies, skills have overlapping vocabulary, or where you need to handle informal or misspelled input gracefully | Classification errors are invisible — the system routes confidently to the wrong skill with no indication that routing failed |
+| **Planner** | An LLM (usually a capable model) reads the input and decides the routing plan, potentially decomposing multi-step queries into sub-tasks | Complex products where users ask multi-step or cross-domain questions that require coordination between skills | Highest cost and latency; the plan can be wrong, and a wrong plan produces coherent-sounding but incorrect output |
+
+Start with rule-based routing if your domains are distinct enough. Move to a classifier when language variation causes routing errors. Only reach for a planner when users are asking genuinely multi-step questions that require cross-skill coordination — and expect the engineering complexity to increase significantly.
+
+---
+
 ## PM Decision Checklist — Module 8
 
 - [ ] Is this genuinely agentic, or could a simpler single-call design work?

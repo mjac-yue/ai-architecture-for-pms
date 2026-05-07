@@ -276,6 +276,41 @@ The right question: "What's the simplest agent design that meets the quality bar
 
 ---
 
+## Designing agent boundaries
+
+Once you've decided to move to multi-agent, the hardest design question is where to draw the lines between agents. Splitting too broadly creates agents with bloated, competing contexts. Splitting too narrowly creates too many hand-offs and too many places for things to go wrong. Here is a three-step process for arriving at clean boundaries.
+
+**Step 1 — Map decision points in the task**
+
+Work through the task from start to finish and mark every point where the next action depends on the result of a previous one. These are branching points. If the task branches heavily in one phase but runs linearly in another, those phases likely belong to different agents — the branching phase needs its own context and reasoning space.
+
+Questions to ask: Where does the task need to "wait and see" before proceeding? Where might the path change based on what was found? Each distinct decision regime is a candidate agent boundary.
+
+**Step 2 — Identify what context must be shared vs. isolated**
+
+Shared context creates coupling. If Agent B needs everything Agent A knew, you haven't gained anything by splitting them — you've added overhead. The split is worth it only when each agent can do its work with a focused, limited context.
+
+Ask for each candidate agent: What does this agent need to know to do its job well? If the answer is "everything that every other agent knows," don't split. If the answer is a specific, bounded set of information, the split is clean.
+
+Shared context should flow explicitly through handoff contracts (Step 3), not implicitly through a shared global state that all agents read from. Implicit sharing is where coordination bugs hide.
+
+**Step 3 — Define handoff contracts**
+
+A handoff contract specifies exactly what one agent passes to the next: the format of the output, the required fields, and the error signals the receiving agent should expect and handle. Handoff contracts are the interfaces between agents.
+
+For each agent-to-agent boundary, specify:
+- What fields are passed (names, types, required vs. optional)
+- What format the output must be in (structured JSON, plain text, etc.)
+- What error signals are possible (agent failed, agent found nothing, agent flagged a problem) and how the receiving agent or orchestrator should respond to each
+
+**Why handoff contracts are the most common failure point**
+
+Most multi-agent failures are not caused by individual agents performing badly. They are caused by one agent producing output in a format, level of detail, or structure that the next agent did not expect. The receiving agent misinterprets the handoff, produces a reasonable-sounding result based on the misinterpretation, and the error propagates silently to the final output.
+
+Because each agent is individually coherent, the failure is hard to detect without logging the full input and output at every agent boundary. Defining handoff contracts explicitly before building forces this conversation to happen upfront, where fixing it is cheap, rather than in production, where it is not.
+
+---
+
 ## PM Decision Checklist — Module 9
 
 - [ ] Has a single-agent version been tested first to confirm it's insufficient?

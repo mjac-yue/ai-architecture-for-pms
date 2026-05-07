@@ -159,6 +159,34 @@ At each layer you can build or buy:
 
 ---
 
+## PM ownership by layer
+
+Across all five layers, PMs define the "what" and "why." Engineering implements the "how." But the split is not equal — some layers demand sustained PM involvement, others are largely engineering territory after the initial requirements are set.
+
+| Layer | PM Owns | Engineering Owns |
+|-------|---------|-----------------|
+| **Model Layer** | Model tier selection, cost-per-query budget, latency requirements, fallback requirements | API integration, retry logic, token counting, provider management |
+| **Retrieval Layer** | What data gets indexed, freshness requirements, access control rules, "I don't know" behaviour | Vector DB infrastructure, chunking strategy, embedding pipeline, re-indexing automation |
+| **Orchestration Layer** | Skill definitions, routing rules, how errors are surfaced to users, max steps per workflow | Orchestration framework, prompt assembly code, tool coordination, loop guards |
+| **Application Layer** | System prompt content, output format requirements, failure message copy, versioning policy | Prompt storage, output validation code, session management, rate limiting infrastructure |
+| **Product UI** | Interaction pattern, how uncertainty is communicated, feedback mechanisms, escalation paths | Component implementation, streaming, frontend code |
+
+---
+
+## Change impact by layer
+
+Changes you initiate as a PM ripple through the stack in predictable ways. Use this table to understand the blast radius before requesting a change — and to know what PM action is needed alongside engineering work.
+
+| Change Type | Layers Affected | PM Action Required |
+|-------------|----------------|-------------------|
+| **Model version swap** (e.g., upgrading to a newer model release) | Model Layer, possibly Application Layer (output format differences) | Re-run evals; validate output quality didn't shift; update latency and cost estimates |
+| **System prompt edit** | Application Layer | Version the change; run regression evals; confirm no guardrail behaviours changed inadvertently |
+| **RAG index update** (new documents added, old ones removed) | Retrieval Layer, Application Layer (context assembly changes) | Test retrieval quality on affected query types; confirm access controls still apply correctly |
+| **New tool added** | Orchestration Layer, Application Layer | Spec the tool description carefully (model uses it for routing decisions); define failure behaviour; confirm approval flow if tool has write access |
+| **UI change** (new interaction surface, new output format) | Product UI, possibly Application Layer (output format must match) | Spec new output format requirements; update system prompt if format changes; validate with users |
+
+---
+
 ## PM Decision Checklist — Module 6
 
 When a new AI feature lands on your roadmap:

@@ -42,6 +42,15 @@ Building an AI feature for a task a database query, formula, or rule engine hand
 
 ---
 
+### Deterministic Expectations
+Treating AI output like a database query: expecting the same input to always produce the same output, and designing systems or stakeholder demos around that assumption.
+
+**Why it fails:** Stakeholder demos show different output than last time and confidence collapses. Integrations that depend on precise output format break when the model phrases things differently. Users become confused when identical questions get slightly different answers. The team spends time chasing variance that is a feature of the system, not a bug.
+
+**Fix:** Set stakeholder expectations during framing that AI is probabilistic by design. Design for variance — use semantic evaluation instead of exact-match testing, parse structured outputs (JSON) rather than free text, and build downstream logic that handles output variation gracefully. Don't fight the probabilistic nature; design around it.
+
+---
+
 ## Spec anti-patterns
 
 ### Underspecified output format
@@ -77,6 +86,15 @@ Specs that only describe the happy path.
 **Why it fails:** Iteration never converges because there's no agreement on done. Different reviewers have different standards. The feature ships when someone's tired.
 
 **Fix:** Define quality as a measurable metric on a defined dataset. "≥75% acceptance on the 50-case eval set" beats "high quality."
+
+---
+
+### The Disclaimer Sandwich
+Adding so many caveats, hedges, and "please verify this" instructions to AI output that the output loses practical utility. Every response starts with "As an AI..." or ends with three paragraphs of disclaimers regardless of confidence or risk level.
+
+**Why it fails:** Users stop reading disclaimers immediately — the same banner blindness that kills cookie consent notices. Uniform disclaimers provide no signal: if everything is uncertain, nothing is. The AI appears less useful than it actually is, and adoption suffers. Blanket disclaimers are a substitute for actual confidence calibration, not a replacement for it.
+
+**Fix:** Design specific, scoped disclaimers for specific risks rather than blanket hedging. Show high confidence by default through source attribution and clear assertions. Flag uncertainty only when it is meaningful — a specific claim that may be wrong, a source that may be outdated. Trust the user to understand AI limitations if the UI communicates scope correctly.
 
 ---
 
@@ -127,6 +145,15 @@ Letting the model directly send emails, delete data, or make payments without hu
 
 ---
 
+### Prompt Engineering Theater
+Iterating on prompts based on vibes and spot-checks rather than eval measurements. The prompt "seems better" after tweaks, but there is no before/after eval score comparison and the same failure modes keep reappearing after each fix.
+
+**Why it fails:** Without measurement, you have no way to confirm improvement. You may be fixing one visible failure while reintroducing an earlier one. Prompt sensitivity varies by model — what appears to work today may silently break after a provider update. Weeks of prompt iteration can produce no net progress while creating the appearance of diligence.
+
+**Fix:** Every prompt change must be accompanied by an eval run. Compare scores before and after the change. If you don't have an eval dataset yet, write one before changing the prompt — not after. Treat prompt changes with the same rigor as code changes: one change at a time, measured result, no ship without a passing score.
+
+---
+
 ## Launch anti-patterns
 
 ### No staged rollout
@@ -174,6 +201,15 @@ Launching without thumbs up/down or any user feedback signal.
 
 ---
 
+### Testing in Production Only
+No eval dataset exists before launch; quality is only visible when real users complain. The team believes demo quality is a sufficient signal to ship.
+
+**Why it fails:** By the time you know something is wrong, many users have already seen bad output and formed a negative impression. User complaints are a lagging, incomplete signal — they capture only the failures users noticed and bothered to report. You have no baseline to compare against, no way to confirm whether a fix actually worked, and no protection against regressions.
+
+**Fix:** An eval dataset is a launch gate. If it does not exist, the feature is not ready to ship regardless of demo quality. Start with 30 representative inputs and expected outputs. Production signals supplement the eval suite — they do not replace it.
+
+---
+
 ## Operations anti-patterns
 
 ### Ship and forget
@@ -218,6 +254,15 @@ Working around model issues with increasingly complex prompt instructions instea
 **Why it fails:** Prompts become brittle, expensive, and hard to maintain. New issues get layered on top of old workarounds.
 
 **Fix:** When the prompt grows complex, reset and ask: "What's the simplest prompt that could meet the quality bar with current models?" Periodically refactor.
+
+---
+
+### The AI Expert Silo
+Only one person on the team understands the AI feature — the prompts, the eval logic, the failure modes, the architecture. Everyone else treats it as a black box. When that person is unavailable, the feature cannot be maintained, incidents cannot be debugged, and improvements stall.
+
+**Why it fails:** Single point of failure means any incident during that person's absence causes extended downtime or unresolved quality degradation. Without peer review, prompt changes and eval design go unchecked. Knowledge does not transfer — the team cannot maintain the system long-term. The PM cannot effectively manage or advocate for a system they do not understand.
+
+**Fix:** AI features need the same knowledge-sharing standards as any other production system. System prompts in version control with inline comments explaining the reasoning behind key instructions. Eval datasets documented with rationale for each case. Runbooks for common failure modes. At minimum two people who can diagnose a prompt regression, tune a guardrail, and run the eval suite independently.
 
 ---
 

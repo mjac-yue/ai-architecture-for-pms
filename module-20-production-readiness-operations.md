@@ -40,9 +40,33 @@ Launch criteria for [feature name]:
 
 ---
 
+## Launch readiness levels
+
+Not every AI feature needs the same quality bar before it ships. Match the threshold to the audience, the stakes, and the tolerance for error.
+
+| Stage | Quality bar | What it means | Typical duration |
+|-------|-------------|---------------|-----------------|
+| Internal Alpha | 40% acceptance on eval set | Basic capability is demonstrated — the feature does the thing, but inconsistently. Appropriate only for internal users who understand they are testing early software. | 1–2 weeks |
+| Controlled Beta | 60% acceptance | Core use cases are working. Known failure modes are documented and communicated to beta users. Edge cases still fail, but the main workflows are reliable enough for engaged early adopters. | 2–4 weeks |
+| Early GA | 75% acceptance | Reliable on the main user flows. Edge cases are handled gracefully even if not perfectly. Monitoring is live and the team is watching quality signals actively. | Ongoing |
+| Full GA | 85% acceptance | Production-ready. The feature handles the full range of expected inputs reliably. Monitoring, alerting, and incident response are fully operational. | Ongoing |
+| Regulated / High-stakes | 95%+ acceptance | Required for features operating in medical, financial, legal, or other regulated contexts where errors carry legal or safety consequences. Requires audit trails and explainability in addition to high accuracy. | Ongoing |
+
+These are reference thresholds, not universal rules. The right bar for your product depends on your error tolerance — a wrong answer in an internal analytics assistant carries different consequences than a wrong answer in a patient-facing medical tool. Adjust the thresholds up or down based on the cost of a failure in your specific context.
+
+---
+
 ## Rollout strategy: power users → gradual → all
 
 Don't ship AI features to 100% of users on day one. Stage the rollout to surface problems at small scale before they affect everyone.
+
+### Stage 0: Shadow mode
+
+Before exposing any users to the AI feature, run it in parallel with the existing system. The AI processes real production inputs and generates outputs, but those outputs are never shown to users — they are logged and compared to what the existing system produced.
+
+Shadow mode is the safest possible way to measure quality on real-world inputs. It surfaces distribution shifts (your eval dataset didn't capture what users actually ask), latency issues at volume, and cost projections before any user is affected.
+
+Shadow mode is particularly important when you are replacing existing deterministic functionality with AI. The existing system is your baseline. Shadow mode tells you whether the AI is ready to replace it, not just whether it passes your eval suite.
 
 ### Stage 1: Internal dogfooding (1–2 weeks)
 The team building it uses it daily. Catches the obvious bugs and embarrassments.
@@ -126,43 +150,80 @@ This work doesn't happen unless it's scheduled and owned. Assign a named owner f
 
 ---
 
+## Unit economics framework
+
+Understanding whether an AI feature is economically viable requires more than knowing the cost per API call. The cost needs to be connected to business value through a chain of measures.
+
+Use this fill-in framework:
+
+```
+Cost per request:         $___  (model tokens + infrastructure)
+  x Requests per session: ___   (average turns to reach an outcome)
+= Cost per session:       $___
+
+Cost per session:         $___
+  / Session success rate: ___%  (sessions that reach a successful outcome)
+= Cost per outcome:       $___
+
+Revenue per outcome:      $___  (or value proxy: time saved, support ticket deflected, etc.)
+  - Cost per outcome:     $___
+= Gross margin per outcome: $___
+```
+
+This chain forces the PM to connect infrastructure cost to business value at every step, and to identify exactly where the economics break down.
+
+Common findings when teams run this framework:
+
+- The cost per request looks fine, but the session success rate is low — meaning the cost per outcome is much higher than expected, and the feature is not economically viable at scale.
+- The gross margin is positive but thin — meaning any model price increase or quality regression that lowers the success rate turns the feature unprofitable.
+- The "revenue per outcome" is not defined — meaning the team is spending money on AI with no agreed-upon way to measure whether it's generating value.
+
+Run this framework before launch to set economic expectations. Re-run it quarterly to track whether the economics are improving or deteriorating.
+
+---
+
 ## Multi-domain scaling: when you have more than one AI feature
 
 The first AI feature is straightforward. The second forces architectural decisions. By the third, you'll wish you'd made those decisions earlier.
 
-### Skill coupling strategies
+### Scaling patterns
 
-```mermaid
-flowchart LR
-    L["Loose coupling"] --> M["Shared workspace"] --> O["Orchestrated pipeline"]
-    L -.- L1["Each feature fully independent"]
-    M -.- M1["Features share conventions"]
-    O -.- O1["Features explicitly chain/coordinate"]
-```
+**Loose coupling (start here):** Each AI feature is fully independent — its own prompts, its own eval dataset, its own context and retrieval, its own tools. No shared logic, no shared conventions. Easy to ship the first 1–3 features this way; encourages experimentation and avoids premature standardisation.
 
-**Loose coupling (start here):** Each AI feature is an island. Independent prompts, independent eval datasets, independent retrieval. Easy to ship the first 1–3 features this way; encourages experimentation.
-
-**Shared workspace (next phase):** When you have 3+ features, the duplication starts hurting. Standardise:
+**Shared conventions (next phase):** When you have 3+ features, the duplication starts hurting. Standardise the things that should be consistent without coupling the underlying logic:
 - Prompt structure conventions
 - Eval dataset format
-- Logging and observability
-- Tool definitions (if multiple agents use the same tools)
+- Logging and observability schema
+- Prompt quality standards
 - Model selection logic
 
-**Orchestrated pipeline (if needed):** When features genuinely chain together (e.g., one feature's output becomes another's input), build explicit orchestration. This is where the patterns from Module 9 (multi-agent) become relevant for whole product flows.
+Features remain independent — they share standards, not code.
 
-**The principle:** Start loose, tighten when you see repetition. Premature standardisation slows you down; late standardisation creates cleanup work but you know what to standardise.
+**Orchestrated pipeline (when genuinely needed):** When features explicitly chain or coordinate — one feature's output becomes another's input, or a shared workflow spans multiple features — build explicit orchestration. This is where patterns from multi-agent architecture (Module 9) become relevant for whole-product flows.
 
-### Shared vs. feature-specific context
+The principle: start loose, tighten when you see real repetition. Premature standardisation slows you down; late standardisation creates cleanup work but you know what to standardise.
 
-| Type of context | Should be shared? |
-|----------------|-------------------|
-| Company terminology, brand voice | Yes — define once |
-| Product feature documentation | Yes — single source of truth |
-| User-specific data (account, history) | Per-user, but shared across AI features for that user |
-| Feature-specific instructions | No — each feature has its own |
-| Eval datasets | No — each feature has its own bar, but the *format* is shared |
-| Tool definitions | Shared if multiple features use them |
+### Adding a new domain: 4-phase playbook
+
+When expanding to a new domain, follow this sequence rather than integrating immediately.
+
+**Phase 1: Treat it as isolated.** Build the new domain as if it were a standalone feature. Independent prompts, independent eval dataset, independent context architecture. Do not touch shared infrastructure. This isolates your build from existing features and keeps regression risk low.
+
+**Phase 2: Adopt shared conventions.** Once the new domain is working in isolation, align it to your existing standards: adopt the shared eval format, the observability schema, the prompt structure conventions, and the model selection logic. This is convention adoption, not code sharing — the domain remains independent.
+
+**Phase 3: Identify integration points with existing features.** Now look explicitly for interactions: Does this domain's output feed another feature? Do users ask cross-domain questions that span this domain and an existing one? Does this domain need access to shared user context? Identify these points before integrating.
+
+**Phase 4: Define shared services if warranted.** If multiple domains genuinely need the same service — shared memory, a shared tool registry, shared user preference context — define and build those shared services deliberately. Do not share these services before you have confirmed multiple domains need them; premature sharing creates coupling you'll later regret.
+
+### Signals that your multi-domain architecture is breaking down
+
+| Warning signal | What it means |
+|---|---|
+| Eval regressions in feature A when feature B changes | The domains are not isolated — shared logic or context is coupling them in ways that create unexpected cross-domain effects |
+| Shared prompts growing too large to maintain | Shared context that was meant to serve all features is trying to serve too many masters; domain-specific context has leaked into shared layers |
+| Routing logic becoming the most complex part of the system | The router is accumulating domain-specific rules and exceptions, which is a sign the domains have not been cleanly separated and the router is doing work that belongs inside the domains themselves |
+
+If you see these signals, the architecture has drifted. The fix is to re-isolate — push shared logic back into the domains that own it, not to make the shared layer more sophisticated.
 
 ---
 
@@ -190,6 +251,28 @@ AI features need ongoing PM attention in a way traditional features don't. Set t
 - Maintenance backlog review
 
 **Skip these and the feature degrades.** This is the core insight: AI features don't run themselves. They need ongoing attention, and that attention has to be scheduled.
+
+---
+
+## AI incident playbook
+
+AI incidents are different from traditional software incidents: the system is often "up" while producing wrong, misleading, or harmful output. The standard incident response playbook needs adaptation.
+
+Follow these 7 steps for any AI quality or safety incident.
+
+**Step 1: Detect.** Define in advance what triggers an incident declaration. This is not something you want to decide during an incident. Define specific thresholds: error rate crossing X%, safety filter spike of Y times baseline, user report volume exceeding Z per hour, a single confirmed harmful output. Write these down and share them with the team before launch.
+
+**Step 2: Contain.** Use the kill switch or traffic reduction to stop the bleeding. For partial failures, reduce rollout percentage. For severe failures (harmful output, safety incident), disable the feature entirely. Contain first; diagnose second. Do not spend time diagnosing while the failure is still reaching users.
+
+**Step 3: Assess severity.** Classify the incident before deciding on urgency. Is this cosmetic (output quality has declined but no user harm), functional (the feature is not accomplishing its core task), trust-eroding (users are receiving incorrect information they may act on), or harmful (output could cause real-world harm to a user or third party)? The classification determines escalation path and response speed.
+
+**Step 4: Communicate.** Follow the internal escalation path appropriate to the severity level. For trust-eroding or harmful incidents, prepare a user-facing message — even a brief "we're aware of an issue and are investigating" is better than silence. Have message templates prepared before an incident, not during one.
+
+**Step 5: Remediate.** Based on the root cause diagnosis (from Module 18's framework), implement the fix: prompt rollback (revert to a previous known-good system prompt), model version rollback (if the failure was caused by a model update), or a targeted hotfix (add a guardrail, update the retrieval index, fix a tool). Do not ship a fix without running the eval suite first.
+
+**Step 6: Postmortem.** After the incident is resolved, document what failed, which layer it was in, and — critically — what eval check should have caught it but didn't. A good AI postmortem produces a specific gap in the eval suite, not just a description of what went wrong.
+
+**Step 7: Update the eval dataset.** Add the failure case that caused the incident to the eval suite. This is the step that prevents recurrence. An incident that adds a new eval case has made the system permanently more robust. An incident that doesn't is likely to recur.
 
 ---
 
@@ -229,19 +312,23 @@ If a feature can't be handed over, it's going to degrade as soon as the original
 
 **Pre-launch:**
 - [ ] Is the launch quality bar defined as specific metrics with numerical thresholds?
-- [ ] Is there a staged rollout plan (internal → beta → gradual → full)?
+- [ ] Is the appropriate launch readiness level selected for this feature's audience and risk profile?
+- [ ] Is there a staged rollout plan (shadow mode → internal → beta → gradual → full)?
 - [ ] Is the kill switch implemented, documented, and tested in production?
 - [ ] Is the rollback plan documented (prompt, model version, RAG index)?
+- [ ] Has the unit economics framework been run to confirm the feature is economically viable at expected volume?
 
 **Operations:**
 - [ ] Is a named owner assigned for ongoing maintenance?
 - [ ] Is the weekly/monthly/quarterly cadence scheduled in calendars?
 - [ ] Does the team have a runbook for common incidents?
 - [ ] Is the kill switch flippable by ops without engineering involvement?
+- [ ] Are incident severity classifications and escalation paths defined before launch?
 
 **Scaling (when shipping multiple AI features):**
 - [ ] Have I identified what should be shared (conventions, observability, tools) vs. feature-specific?
 - [ ] Are we starting loose and tightening when we see real repetition — not pre-optimising?
+- [ ] Are there any of the three architectural breakdown signals present (cross-feature regressions, oversized shared prompts, complex routing logic)?
 
 **Handover:**
 - [ ] Are prompt design decisions documented in the prompt file itself?

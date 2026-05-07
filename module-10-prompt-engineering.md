@@ -1,5 +1,29 @@
 # Module 10: Prompt Engineering for PMs
 
+## The skill as the atomic unit
+
+Every AI feature, no matter how complex, is built from one or more skills. A skill is the atomic unit of AI capability — one thing the system can do well. When you add an AI feature to a product, what you are actually doing is defining one or more skills and wiring them together.
+
+A skill has five components:
+
+1. **System Prompt** — defines the AI's role, behaviour, and constraints. This is the identity and rulebook for the capability.
+2. **Context Injection** — what data or documents are included at runtime. This determines what the AI knows when it responds.
+3. **Tool Definitions** — what external actions the skill can request. This is the boundary of what the AI is allowed to do beyond generating text.
+4. **Guardrails** — what the skill must never do or produce. These are the enforcement rules that prevent harmful, incorrect, or out-of-scope output.
+5. **Output Specification** — the format, structure, and length constraints for the response. This ensures the output is consistent and usable.
+
+**PM ownership point:** All five components are product decisions, even though engineers implement them. The system prompt encodes your behaviour requirements. The context injection reflects your data architecture choices. The tool definitions set the capability boundary. The guardrails express your risk tolerance. The output specification defines the user experience of the response. If you delegate all five to engineering without review, you have shipped an underspecified product.
+
+| Component | The spec question a PM must answer |
+|---|---|
+| System Prompt | What role should this AI play, and what rules must it always follow? |
+| Context Injection | What information does the AI need to answer well, and how is it loaded? |
+| Tool Definitions | What actions can the AI take on the user's behalf, and what is off-limits? |
+| Guardrails | What outputs are never acceptable, and what happens when a guardrail fires? |
+| Output Specification | What does a correct, well-formed response look like — format, length, structure? |
+
+---
+
 ## Why PMs need to understand prompts
 
 Prompts are the product specification for AI behavior. When your engineers are "building the AI feature," a large part of what they're doing is writing and refining prompts. If you can't read a prompt critically or write a clear behavior spec, you're handing off an underspecified requirement and hoping it works out.

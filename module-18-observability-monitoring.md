@@ -190,6 +190,41 @@ Unlike traditional software where behaviour is stable until someone changes it, 
 
 ---
 
+## Feedback loop types
+
+Not all feedback signals are equal in what they tell you, how hard they are to collect, and how directly they drive quality improvement.
+
+| Type | How collected | Example | How it feeds quality improvement |
+|------|--------------|---------|----------------------------------|
+| **Explicit** | User-initiated ratings, thumbs up/down, star ratings, comment fields | User clicks thumbs down on a response | Direct signal — log the interaction, sample for review, add persistent failures to eval dataset |
+| **Implicit** | System-detected user behavior indicating dissatisfaction | User clicks "Regenerate", user edits the AI's output before using it | Indirect signal — aggregate to spot quality trends; high regeneration rate on a specific query type surfaces an eval gap |
+| **Behavioral** | Downstream actions that indicate whether the user accomplished their goal with or without AI assistance | User completed the task in one session vs. abandoning and returning; time-to-task with AI vs. historical baseline | Measures AI effectiveness, not just AI quality — the difference between "user liked the output" and "AI actually helped" |
+| **Outcome** | Did the AI-assisted action lead to the desired business result? | Customer support ticket resolved without escalation; generated SQL query returned correct data on first run | The strongest signal — connects AI output quality to actual business value |
+
+**A note on instrumentation timing:** Behavioral and outcome signals are the most valuable signals you can collect, and the hardest to instrument after the fact. Both require you to define what "success" looks like at the task and business level — not just at the response level — and to instrument that definition into your product analytics. Spec these signals before engineering begins, not as a follow-up after launch. Teams that plan feedback loops as an afterthought end up with only explicit feedback (the weakest and most biased signal) and lose months of behavioral and outcome data that cannot be reconstructed.
+
+---
+
+## Root cause diagnosis framework
+
+When a quality metric declines, the instinct is to "fix the prompt." That instinct is wrong about half the time. Use this diagnostic sequence before touching anything.
+
+Diagnose in this order:
+
+1. **Was there a recent change?** Check the change log for prompt edits, model version changes, context/data updates, or shifts in traffic pattern (new user segment, new use case emerging). If something changed, you have a starting point. If nothing changed, something external did.
+
+2. **Is it in the context?** Pull sample traces from the failing period. Is retrieval returning the wrong chunks, empty results, or outdated content? Most quality regressions in RAG systems are retrieval failures, not model failures. Check the retrieval layer first.
+
+3. **Is it in the instructions?** Review the system prompt for drift — instructions that were edited, constraints that conflict with each other, or guidance that no longer matches the current product. Prompt drift is common in systems where multiple engineers touch the prompt over time.
+
+4. **Is it in the tools?** If the feature uses tools, check whether the tools are returning correct data, whether the model is selecting the right tool, and whether tool descriptions have drifted from actual tool behavior.
+
+5. **Is it a capability wall?** If the context is right, the instructions are right, and the tools are right, but the outputs are still failing — the task may have become harder than the model can handle. This could mean the user base has evolved to more complex queries, or a new use case has emerged that the model is not capable of.
+
+This framework is the PM's debugging protocol. Your job is not to fix the code — it is to correctly identify which layer is broken so the right team member investigates. "The model is hallucinating" is not a diagnosis. "Retrieval is returning empty results for queries about the new pricing tier" is a diagnosis.
+
+---
+
 ## The instrumentation gate
 
 Before any AI feature ships to production, verify:
@@ -215,3 +250,4 @@ Missing any of these = not ready for production.
 - [ ] Is cost broken down by feature and model tier?
 - [ ] Is there a process for detecting quality drift (eval re-runs, sampling, distribution monitoring)?
 - [ ] When a failure is reported, can we get from symptom to root cause via the trace, not by guessing?
+- [ ] Are behavioral and outcome feedback signals specced and instrumented — not left as a post-launch afterthought?

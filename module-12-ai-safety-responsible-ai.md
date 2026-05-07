@@ -92,6 +92,54 @@ Users trust AI output more than they should, stop applying their own judgment, a
 
 ---
 
+## Guardrail architecture
+
+Guardrails are not just a policy document or a list of rules in a system prompt. They are a technical architecture layer with specific components that run at specific points in the request lifecycle. Understanding where guardrails run — and why — is essential for speccing them correctly.
+
+### Guardrails as a technical layer
+
+Every request to an AI system passes through a series of steps: the user sends input, the model processes it, tools may be called, and a response is returned. Guardrails attach to specific hook points in this lifecycle. A guardrail that runs only at output can still allow a dangerous tool call to execute first. A guardrail that runs only at input will miss problems introduced by retrieved content. Effective guardrail architecture requires coverage at multiple hook points.
+
+### Hook points in the request lifecycle
+
+| Hook point | When it runs | What it protects against |
+|---|---|---|
+| **Input validation** | Before the model call, on user input | Malformed input, known injection patterns, disallowed content in the request itself |
+| **PreToolUse** | Before any tool executes, after the model decides to call it | Dangerous or unauthorized tool calls, missing required parameters, access control violations |
+| **PostToolUse** | After the tool returns a result, before the model sees it | Sensitive data in tool results (PII, credentials), excessively large results that would flood context |
+| **Output validation** | After the model responds, before the user sees it | PII or credential leakage, hallucination, policy violations, format compliance |
+| **OnError** | When any step in the pipeline fails | Preventing error details from leaking to users, triggering fallback behavior, logging for diagnosis |
+
+The most commonly skipped hook points are PreToolUse and PostToolUse. Output validation catches what the model says; PreToolUse catches what the model does. For agentic features with real-world side effects, PreToolUse is the more important guardrail.
+
+### Deterministic vs. AI-based guardrails
+
+There are two fundamentally different types of guardrails, with different cost, speed, and capability profiles:
+
+| Type | Mechanism | Speed | Cost | Strengths | Weaknesses |
+|---|---|---|---|---|---|
+| **Deterministic** | Regex, keyword filter, schema validation, lookup table | < 1ms | Negligible | Fast, zero cost, no false negatives on known patterns, fully predictable | Cannot catch novel attacks, semantic issues, or nuanced policy violations |
+| **AI-based** | Classifier model, second LLM call | 50–500ms | Per-call model cost | Flexible, catches novel attacks, handles context and nuance | Slower, adds cost, probabilistic (can miss edge cases), requires its own prompt engineering |
+
+The practical implication: use deterministic guardrails for everything you can enumerate (known harmful patterns, PII formats, access control rules, schema validation). Use AI-based guardrails for things that require understanding meaning — hallucination detection, tone checks, nuanced policy compliance, novel prompt injection.
+
+Do not replace deterministic guardrails with AI-based ones for cost savings. A regex that blocks SQL injection is both faster and more reliable than an LLM asked to detect SQL injection. Use both layers.
+
+### Speed vs. safety tradeoff by product type
+
+Every guardrail adds latency. AI-based guardrails add 50–500ms each. The right guardrail stack depends on the product's latency budget and safety requirements.
+
+| Product type | Safety priority | Latency budget | Recommended guardrail approach |
+|---|---|---|---|
+| **Consumer chat** | High — wide user base, adversarial inputs likely, brand exposure | Accept moderate latency (users expect AI to take a moment) | Full deterministic stack plus 1–2 AI-based guardrails for semantic safety; streaming output while guardrails run on completed chunks |
+| **Internal tool** | Medium — trusted users, narrower scope, lower public exposure | Low latency budget — internal users tolerate less waiting than consumers | Deterministic guardrails on tool calls; AI-based guardrails only for highest-risk outputs |
+| **Batch processing** | High — outputs may be used in downstream automated decisions | Latency irrelevant — batch jobs run offline | Full guardrail stack; add human review sampling on outputs; extensive AI-based quality checks acceptable |
+| **Real-time voice** | Lower guardrail coverage mandatory — latency is the hard constraint | Real-time (< 300ms end-to-end) | Lightweight deterministic input checks only; rely on system prompt constraints and model safety; accept higher residual risk in exchange for acceptable latency |
+
+**PM decision:** Define your product's latency budget before speccing the guardrail architecture. A real-time voice feature with a 300ms response budget physically cannot run an AI-based hallucination check in-line. A batch processing pipeline has no latency constraint and can afford exhaustive checking. These are product decisions, not engineering decisions.
+
+---
+
 ## Red-teaming: systematic adversarial testing
 
 Red-teaming is the practice of deliberately trying to break your AI feature — finding the inputs that produce unsafe, harmful, or policy-violating outputs before users do.
@@ -203,3 +251,5 @@ Add a responsible AI review to your feature spec process. Before any AI feature 
 - [ ] Has a red-team exercise been scoped and scheduled before launch?
 - [ ] Has legal been consulted on applicable regulations?
 - [ ] Is there a user-facing mechanism to report harmful outputs?
+- [ ] Have I mapped guardrails to all five hook points in the request lifecycle?
+- [ ] Have I defined the latency budget for this product and confirmed the guardrail stack fits within it?

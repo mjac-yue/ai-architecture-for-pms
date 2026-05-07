@@ -123,6 +123,24 @@ Fine-tuning costs time (weeks), money, and creates maintenance burden. Exhaust p
 
 ---
 
+## How model capabilities map to PM decisions
+
+Understanding what a model is good and bad at is only useful when it connects to a specific product decision. The table below maps each capability or limitation to the PM decision it most directly informs.
+
+| Model Capability / Limitation | PM Decision It Informs |
+|---|---|
+| Strong instruction-following | Reliable output format specs are achievable — you can define a structured output (JSON schema, table, numbered list) and trust the model to follow it consistently. You don't need to accept free-form output and parse it with fragile post-processing. |
+| Long context handling (200K tokens) | Document analysis features are viable without RAG for many use cases — you can load entire contracts, reports, or conversation histories into context rather than building a retrieval pipeline. Evaluate whether RAG is actually necessary before adding the complexity. |
+| Weak at precise math and counting | Always route calculations through tool calls (a code interpreter, a formula, an API call). Never ask the model to compute values you need to be exact. This is a product design constraint, not an edge case. |
+| Code generation quality | Developer tooling features (code completion, code review, boilerplate generation) are genuinely viable as core product features, not just demos. Quality is high enough to create real productivity lift for professional developers. |
+| Hallucination on rare or specific facts | RAG is required for any feature that needs to return accurate, specific factual information (product data, regulatory details, proprietary knowledge). Don't rely on what the model "knows" — supply the facts at runtime. |
+| Context window limits | A chunking strategy is required for any document or conversation above roughly 150K–180K tokens (leaving headroom for output and system prompt). Features that process large documents need an explicit plan for how content is segmented and summarised. |
+| No persistent memory between sessions | Session state — what the user said earlier, their preferences, their history — must be managed by your application layer, not assumed to live in the model. Every new session starts blank unless your system explicitly loads prior context. |
+
+Use this table when speccing features: for each capability row that applies to your feature, there is a corresponding product design or architecture decision you need to make explicitly.
+
+---
+
 ## PM Decision Checklist — Module 3
 
 Before speccing any AI feature, answer these:
