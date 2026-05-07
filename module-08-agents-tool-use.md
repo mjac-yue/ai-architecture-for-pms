@@ -207,11 +207,11 @@ Once you've decided to build an agent, there's a structured way to think about *
 
 ```mermaid
 flowchart TD
-    L5["5. Distribution"]
-    L4["4. Delegation"]
-    L3["3. Guardrails"]
-    L2["2. Knowledge"]
-    L1["1. Constitution"]
+    L5["Distribution (Layer 5)"]
+    L4["Delegation (Layer 4)"]
+    L3["Guardrails (Layer 3)"]
+    L2["Knowledge (Layer 2)"]
+    L1["Constitution (Layer 1)"]
 
     L1 --> L2 --> L3 --> L4 --> L5
 ```
