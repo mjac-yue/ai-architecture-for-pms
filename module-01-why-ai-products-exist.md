@@ -190,7 +190,7 @@ The remainder of this course works through the implications of this foundational
 - **How AI products are architected** (Modules 6–8)
 - **The PM craft skills you'll apply** (Modules 9–11)
 - **The strategic decisions you'll make** (Modules 12–14)
-- **How AI features get shipped and measured** (Modules 15–17)
+- **How AI features get shipped, monitored, and run in production** (Modules 16–20)
 
 Every module assumes the foundation laid here: AI products exist because something fundamental changed in what software can do, they create value in identifiable patterns, and the PM's first job is to know when AI is genuinely the right answer.
 

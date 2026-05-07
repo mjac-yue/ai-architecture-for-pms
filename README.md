@@ -41,20 +41,23 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 | 5 | [AI Product Management](module-05-ai-product-management.md) | Run the full AI PM lifecycle: opportunity identification, problem framing, roadmapping, stakeholder communication |
 | **Part 2: Architecture** | | |
 | 6 | [The AI Product Stack](module-06-ai-product-stack.md) | Map any AI feature to its architecture layers; know where complexity lives |
-| 7 | [RAG — Giving AI Your Data](module-07-rag.md) | Spec a retrieval system; understand accuracy/freshness tradeoffs |
-| 8 | [Agents and Tool Use](module-08-agents-tool-use.md) | Define agentic features clearly; know when agents are overkill |
+| 7 | [RAG and Context Architecture](module-07-rag.md) | Choose between 5 context strategies; design tiered resolution; spec retrieval correctly |
+| 8 | [Agents and Tool Use](module-08-agents-tool-use.md) | Define agentic features; know when agents are overkill; diagnose using the Agent Development Stack |
+| 9 | [Multi-Agent Architecture](module-09-multi-agent-architecture.md) | Recognise when single-agent breaks down; choose between 5 coordination patterns; reason about agent isolation |
 | **Part 3: PM Craft** | | |
-| 9 | [Prompt Engineering for PMs](module-09-prompt-engineering.md) | Write AI behavior specs engineers can build from; review prompts in PRs |
-| 10 | [AI UX Patterns](module-10-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
-| 11 | [AI Safety & Responsible AI](module-11-ai-safety-responsible-ai.md) | Identify and mitigate AI harms; run red-team exercises; understand the regulatory landscape |
+| 10 | [Prompt Engineering for PMs](module-10-prompt-engineering.md) | Write AI behavior specs engineers can build from; review prompts in PRs |
+| 11 | [AI UX Patterns](module-11-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
+| 12 | [AI Safety & Responsible AI](module-12-ai-safety-responsible-ai.md) | Identify and mitigate AI harms; run red-team exercises; understand the regulatory landscape |
 | **Part 4: Strategy** | | |
-| 12 | [Build vs. Buy for AI Features](module-12-build-vs-buy.md) | Make principled build/buy decisions; evaluate vendors on quality, data risk, and cost |
-| 13 | [Cost, Latency & Model Selection](module-13-cost-latency.md) | Make informed model-tier decisions; estimate AI infrastructure cost |
-| 14 | [Data Strategy for AI Products](module-14-data-strategy.md) | Build a data flywheel; identify your data moat; govern AI data correctly |
+| 13 | [Build vs. Buy for AI Features](module-13-build-vs-buy.md) | Make principled build/buy decisions; evaluate vendors on quality, data risk, and cost |
+| 14 | [Cost, Latency & Model Selection](module-14-cost-latency.md) | Make informed model-tier decisions; estimate AI infrastructure cost |
+| 15 | [Data Strategy for AI Products](module-15-data-strategy.md) | Build a data flywheel; identify your data moat; govern AI data correctly |
 | **Part 5: Execution** | | |
-| 15 | [Working with AI Engineering Teams](module-15-working-with-ai-engineers.md) | Write specs engineers can build from; estimate AI work; manage prompt and model changes safely |
-| 16 | [Evaluating AI Features](module-16-evaluation.md) | Write acceptance criteria for AI; run basic evals before launch |
-| 17 | [Measuring AI Product Success](module-17-measuring-ai-product-success.md) | Define AI quality metrics; instrument features correctly; connect AI performance to business outcomes |
+| 16 | [Working with AI Engineering Teams](module-16-working-with-ai-engineers.md) | Write specs engineers can build from; estimate AI work; manage prompt and model changes safely |
+| 17 | [Evaluating AI Features](module-17-evaluation.md) | Write acceptance criteria for AI; run basic evals before launch |
+| 18 | [Observability & Monitoring](module-18-observability-monitoring.md) | Instrument AI features for debugging; detect quality drift; manage cost in production |
+| 19 | [Measuring AI Product Success](module-19-measuring-ai-product-success.md) | Define AI quality metrics; instrument features correctly; connect AI performance to business outcomes |
+| 20 | [Production Readiness & Operations](module-20-production-readiness-operations.md) | Define go/no-go bars; design rollouts and kill switches; run AI features long-term |
 
 ---
 
@@ -64,6 +67,7 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 |----------|---------|
 | [AI PM Playbook](ai-pm-playbook.md) | Full product lifecycle workflow with stage-by-stage checklists — open this when starting any AI feature |
 | [Quick Reference](quick-reference.md) | Fast lookup: pattern selector, cost estimates, prompt checklist, glossary |
+| [Anti-Patterns](anti-patterns.md) | Catalogue of common AI PM mistakes by lifecycle phase, with fixes |
 
 ---
 

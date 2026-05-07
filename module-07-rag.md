@@ -1,4 +1,91 @@
-# Module 7: RAG — Giving AI Your Data
+# Module 7: RAG and Context Architecture
+
+## The bigger picture: context as the product
+
+Here's a frame that will change how you think about AI products: **the model is the commodity. The context is the product.**
+
+Most teams have access to the same foundation models. What differentiates one AI product from another is what each one puts *into* the model's context — the data, the instructions, the retrieved documents, the user state, the tool results. That's where the product lives. RAG is one of five strategies for getting context in front of the model. This module starts with all five, then goes deep on RAG (the most common), and ends with how to choose between them.
+
+---
+
+## The 5 context strategies
+
+```mermaid
+flowchart TD
+    M["Model context window"]
+    S["1. Static\n(always-included content)"] --> M
+    I["2. Indexed lookup\n(structured DB query)"] --> M
+    R["3. RAG\n(semantic retrieval)"] --> M
+    T["4. Tool calls\n(live data via API)"] --> M
+    Mem["5. Memory\n(persistent user/session state)"] --> M
+```
+
+### Strategy 1: Static context
+Content baked into the system prompt that's the same for every request. Brand voice, role definition, output format, few-shot examples, fixed knowledge that doesn't change.
+
+**Best for:** Stable instructions, persona, formatting rules, small amounts of always-relevant knowledge.
+
+**When it breaks:** When the static content gets large enough to bloat every request, or when it conflicts with retrieved content.
+
+---
+
+### Strategy 2: Indexed lookup
+A structured database query — fetch this user's account, this product's spec, this order's status. Fast, deterministic, exactly the right record.
+
+**Best for:** Known schemas, exact matches, real-time data with stable structure.
+
+**Why teams underuse it:** They reach for RAG when a SQL query would work. RAG is fuzzy; indexed lookup is precise. If you know exactly what you need, look it up — don't search for it.
+
+---
+
+### Strategy 3: RAG (Retrieval-Augmented Generation)
+Semantic search across unstructured content. Find chunks similar in meaning to the query, even if the wording differs.
+
+**Best for:** Unstructured docs, knowledge that doesn't fit a schema, "answer questions about X" patterns.
+
+**Limitations:** Imprecise (might retrieve the wrong chunks), expensive infrastructure (vector DBs, re-indexing), and the most common failure point in AI systems.
+
+---
+
+### Strategy 4: Tool calls
+The model requests live data or actions from external systems — call an API, run a query, send a message. Module 8 covers this in depth.
+
+**Best for:** Real-time data (prices, inventory, calendar), live actions (creating records, sending emails), capabilities that can't be pre-indexed.
+
+**The rule:** If the data changes faster than you'd want to re-index, use tools, not RAG.
+
+---
+
+### Strategy 5: Memory
+Persistent user or session state — the AI's "long-term memory" of past interactions, preferences, learned facts. More complex than the other four; usually built on top of them.
+
+**Best for:** Personalisation, continuity across sessions, learning from past corrections.
+
+**The hard parts:** What to remember, when to forget, how to surface relevant memories at the right time.
+
+---
+
+## The Tiered Resolution Pattern
+
+Real AI products usually combine multiple strategies in a layered approach. The pattern: **try the cheapest, fastest path first; escalate only when needed.**
+
+```mermaid
+flowchart TD
+    Q["User query"] --> T1{"Tier 1:\nCache hit?\n(prior identical query)"}
+    T1 -- "Yes" --> R1["Return cached answer\n($0, <100ms)"]
+    T1 -- "No" --> T2{"Tier 2:\nIndexed lookup\nor RAG retrieval\nfinds answer?"}
+    T2 -- "Yes" --> R2["Return retrieved answer\n(low cost, ~1s)"]
+    T2 -- "No" --> T3["Tier 3:\nFull model generation\nwith retrieval + tools\n(higher cost, 3-10s)"]
+```
+
+**Cost economics example:**
+- Tier 1 (cache): $0 per request, <100ms
+- Tier 2 (retrieval-only with cached prompt): $0.002 per request, ~1s
+- Tier 3 (full generation): $0.015 per request, ~5s
+
+Even if 30% of queries can be answered at Tier 1 or Tier 2, you've cut costs significantly without sacrificing quality on the harder queries. PM implication: don't design AI features so every query takes the most expensive path. Design tiered resolution from the start.
+
+---
 
 ## What RAG is and why it exists
 

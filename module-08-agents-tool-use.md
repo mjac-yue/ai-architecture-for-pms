@@ -201,6 +201,84 @@ Always ask: "How many model calls does a single user action trigger in the worst
 
 ---
 
+## The Agent Development Stack
+
+Once you've decided to build an agent, there's a structured way to think about *what to build, in what order, and what's broken when it fails*. The Agent Development Stack is a five-layer framework. Each layer depends on the ones below it; you build bottom-up; when something fails, you diagnose by asking which layer is broken.
+
+```mermaid
+flowchart TD
+    L5["5. Distribution\nHow users access the agent\n(UI, API, integrations)"]
+    L4["4. Delegation\nWhat the agent can decide and act on autonomously"]
+    L3["3. Guardrails\nWhat the agent must never do, output validation, safety"]
+    L2["2. Knowledge\nContext, RAG, tools, data the agent draws on"]
+    L1["1. Constitution\nRole, purpose, behaviour, tone, scope boundaries"]
+
+    L1 --> L2 --> L3 --> L4 --> L5
+```
+
+### Layer 1: Constitution
+The agent's core identity. Role definition, purpose, tone, scope boundaries, what it will and won't engage with. This is the system prompt's foundational layer.
+
+**You're working in this layer when:** defining the agent's persona, writing the role description, setting scope rules.
+
+**Symptoms of a broken constitution:** Agent goes off-topic, produces inconsistent personas across sessions, can't say "I don't help with that."
+
+---
+
+### Layer 2: Knowledge
+What the agent draws on to answer questions or make decisions. Context strategies (Module 7), RAG, tool access, structured data lookups.
+
+**You're working in this layer when:** designing retrieval, defining tool schemas, deciding what data the agent has access to.
+
+**Symptoms of broken knowledge:** Agent gives outdated answers, says it doesn't know things it should know, retrieves the wrong chunks, can't access needed live data.
+
+---
+
+### Layer 3: Guardrails
+What the agent must never do. Output validation, content filtering, safety constraints, prompt injection defences. Module 12 covers this in depth.
+
+**You're working in this layer when:** writing "do not" rules in the prompt, adding output validation, implementing content moderation.
+
+**Symptoms of broken guardrails:** Harmful outputs reach users, prompt injections succeed, the agent does things outside its allowed scope.
+
+---
+
+### Layer 4: Delegation
+What the agent can decide and act on autonomously vs. what requires human approval. The boundary between agent autonomy and human-in-the-loop.
+
+**You're working in this layer when:** deciding which actions the agent can take alone, designing approval flows, configuring tool permissions.
+
+**Symptoms of broken delegation:** Agent takes destructive actions it shouldn't have authority over, OR asks for human approval on every trivial decision (over-correction).
+
+---
+
+### Layer 5: Distribution
+How users actually access and interact with the agent. UI surfaces, APIs, integrations, where the agent lives in the user's workflow.
+
+**You're working in this layer when:** designing the chat UI, building the slash command, exposing the agent via API, integrating into Slack/Teams/etc.
+
+**Symptoms of broken distribution:** Users don't discover the agent, friction to invoke it, unclear when to use it vs. another tool.
+
+---
+
+### The diagnostic value
+
+When an agent feature isn't working, ask: **"Which layer is broken?"** This narrows the fix far faster than vague "the agent isn't good enough."
+
+| Symptom | Likely broken layer |
+|---------|--------------------|
+| Wrong persona, goes off-topic | Layer 1 (Constitution) |
+| Doesn't know things it should | Layer 2 (Knowledge) |
+| Produces unsafe or off-policy outputs | Layer 3 (Guardrails) |
+| Takes wrong actions or refuses safe actions | Layer 4 (Delegation) |
+| Right capability, wrong workflow placement | Layer 5 (Distribution) |
+
+### Build order matters
+
+Build bottom-up. Don't build distribution before guardrails are in place; don't build delegation before knowledge is solid. Each layer depends on the ones below.
+
+---
+
 ## PM Decision Checklist — Module 8
 
 - [ ] Is this genuinely agentic, or could a simpler single-call design work?

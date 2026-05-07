@@ -76,7 +76,7 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 ## Stage 3: Spec
 *What does the AI need to do, and how will we know it's good enough?*
 
-**Reference modules:** [9 — Prompt Engineering](module-09-prompt-engineering.md) · [7 — RAG](module-07-rag.md) · [8 — Agents](module-08-agents-tool-use.md) · [11 — Safety](module-11-ai-safety-responsible-ai.md) · [15 — Working with Engineers](module-15-working-with-ai-engineers.md)
+**Reference modules:** [10 — Prompt Engineering](module-10-prompt-engineering.md) · [7 — RAG](module-07-rag.md) · [8 — Agents](module-08-agents-tool-use.md) · [9 — Multi-Agent](module-09-multi-agent-architecture.md) · [12 — Safety](module-12-ai-safety-responsible-ai.md) · [16 — Working with Engineers](module-16-working-with-ai-engineers.md)
 
 ### AI feature brief (complete all sections)
 
@@ -93,9 +93,9 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 **Architecture decisions**
 - [ ] Single call, RAG, or agentic? (→ Module 6)
 - [ ] If RAG: what data sources, who owns freshness, access control requirements? (→ Module 7)
-- [ ] If agentic: what tools, max model calls per request, human-in-the-loop gates? (→ Module 8)
-- [ ] Model tier and justification (→ Module 13)
-- [ ] Is prompt caching applicable? (→ Module 13)
+- [ ] If agentic: what tools, max model calls per request, human-in-the-loop gates? (→ Modules 8, 9)
+- [ ] Model tier and justification (→ Module 14)
+- [ ] Is prompt caching applicable? (→ Module 14)
 
 **Quality bar**
 - [ ] What metric defines "good enough to ship"? (acceptance rate / accuracy / task completion)
@@ -108,7 +108,7 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 - [ ] 5+ adversarial inputs (jailbreak attempts, out-of-scope requests)
 
 **Safety and compliance**
-- [ ] Harm taxonomy completed (→ Module 11)
+- [ ] Harm taxonomy completed (→ Module 12)
 - [ ] Red-team exercise scoped
 - [ ] Applicable regulations identified (EU AI Act, GDPR, HIPAA)
 - [ ] Access control requirements at retrieval layer
@@ -125,12 +125,12 @@ Feasibility comes from the spike (0 = failed, 1 = works well).
 ## Stage 4: Build
 *Iterate to the quality bar, then integrate.*
 
-**Reference modules:** [15 — Working with Engineers](module-15-working-with-ai-engineers.md) · [12 — Build vs. Buy](module-12-build-vs-buy.md)
+**Reference modules:** [16 — Working with Engineers](module-16-working-with-ai-engineers.md) · [13 — Build vs. Buy](module-13-build-vs-buy.md)
 
 ### Sprint planning checks
 - [ ] Spike findings shared with the team before estimation
 - [ ] Estimate includes prompt iteration cycles, not just integration
-- [ ] Build vs. buy decided for each infrastructure layer (→ Module 12)
+- [ ] Build vs. buy decided for each infrastructure layer (→ Module 13)
 - [ ] System prompt is in version control with a review process
 - [ ] Eval dataset is in version control alongside the prompt
 
@@ -155,7 +155,7 @@ Before connecting to UI and data sources:
 ## Stage 5: Launch
 *Ship the right thing with the right safeguards.*
 
-**Reference modules:** [10 — AI UX Patterns](module-10-ai-ux-patterns.md) · [11 — Safety](module-11-ai-safety-responsible-ai.md) · [16 — Evaluation](module-16-evaluation.md)
+**Reference modules:** [11 — AI UX Patterns](module-11-ai-ux-patterns.md) · [12 — Safety](module-12-ai-safety-responsible-ai.md) · [17 — Evaluation](module-17-evaluation.md) · [20 — Production Readiness](module-20-production-readiness-operations.md)
 
 ### UX checklist
 - [ ] AI scope communicated to users specifically (not "Powered by AI")
@@ -192,7 +192,7 @@ Before connecting to UI and data sources:
 ## Stage 6: Measure & Iterate
 *Close the loop and make it better.*
 
-**Reference modules:** [14 — Data Strategy](module-14-data-strategy.md) · [17 — Measuring AI Product Success](module-17-measuring-ai-product-success.md)
+**Reference modules:** [15 — Data Strategy](module-15-data-strategy.md) · [18 — Observability](module-18-observability-monitoring.md) · [19 — Measuring AI Product Success](module-19-measuring-ai-product-success.md) · [20 — Production Readiness](module-20-production-readiness-operations.md)
 
 ### Weekly PM review metrics
 | Metric | What a change signals |
@@ -279,15 +279,19 @@ Use this as a final gate before any AI feature ships to production.
 | Scope a vision, audio, or image feature | [Module 4](module-04-multimodal-ai.md) |
 | Manage the full AI PM lifecycle | [Module 5](module-05-ai-product-management.md) |
 | Map an AI feature to its architecture | [Module 6](module-06-ai-product-stack.md) |
-| Spec a knowledge base or Q&A feature | [Module 7](module-07-rag.md) |
+| Choose a context strategy or spec retrieval | [Module 7](module-07-rag.md) |
 | Design an agentic workflow | [Module 8](module-08-agents-tool-use.md) |
-| Write or review a system prompt | [Module 9](module-09-prompt-engineering.md) |
-| Design the user-facing AI experience | [Module 10](module-10-ai-ux-patterns.md) |
-| Identify risks and run a red-team | [Module 11](module-11-ai-safety-responsible-ai.md) |
-| Decide whether to build or use a vendor | [Module 12](module-12-build-vs-buy.md) |
-| Estimate cost and choose a model tier | [Module 13](module-13-cost-latency.md) |
-| Plan your data strategy and moat | [Module 14](module-14-data-strategy.md) |
-| Work with engineers on AI features | [Module 15](module-15-working-with-ai-engineers.md) |
-| Write acceptance criteria and run evals | [Module 16](module-16-evaluation.md) |
-| Define and track AI product metrics | [Module 17](module-17-measuring-ai-product-success.md) |
+| Coordinate multiple agents | [Module 9](module-09-multi-agent-architecture.md) |
+| Write or review a system prompt | [Module 10](module-10-prompt-engineering.md) |
+| Design the user-facing AI experience | [Module 11](module-11-ai-ux-patterns.md) |
+| Identify risks and run a red-team | [Module 12](module-12-ai-safety-responsible-ai.md) |
+| Decide whether to build or use a vendor | [Module 13](module-13-build-vs-buy.md) |
+| Estimate cost and choose a model tier | [Module 14](module-14-cost-latency.md) |
+| Plan your data strategy and moat | [Module 15](module-15-data-strategy.md) |
+| Work with engineers on AI features | [Module 16](module-16-working-with-ai-engineers.md) |
+| Write acceptance criteria and run evals | [Module 17](module-17-evaluation.md) |
+| Instrument AI for production observability | [Module 18](module-18-observability-monitoring.md) |
+| Define and track AI product metrics | [Module 19](module-19-measuring-ai-product-success.md) |
+| Get to production-ready and run AI long-term | [Module 20](module-20-production-readiness-operations.md) |
 | Look up a decision quickly | [Quick Reference](quick-reference.md) |
+| Avoid common AI PM mistakes | [Anti-Patterns](anti-patterns.md) |

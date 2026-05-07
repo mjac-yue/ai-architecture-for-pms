@@ -1,4 +1,4 @@
-# Module 10: AI UX Patterns
+# Module 11: AI UX Patterns
 
 ## Why AI UX is different
 
@@ -137,7 +137,7 @@ Try rephrasing, or search our help center."
 connect you with a support agent? [Yes, connect me] [No, I'll try again]"
 ```
 
-Never let the AI confidently make something up instead of these tiers. You must prompt it to do this (Module 9), and you must design the UI to present it gracefully.
+Never let the AI confidently make something up instead of these tiers. You must prompt it to do this (Module 10), and you must design the UI to present it gracefully.
 
 ---
 
@@ -209,7 +209,7 @@ Not every feature needs AI. Adding AI to the wrong place creates complexity with
 
 ---
 
-## PM Decision Checklist — Module 10
+## PM Decision Checklist — Module 11
 
 - [ ] Does the UI communicate the AI's scope explicitly — what it can and can't do?
 - [ ] Is AI output visually distinguished from verified data?

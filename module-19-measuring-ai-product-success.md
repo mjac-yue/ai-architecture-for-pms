@@ -1,4 +1,4 @@
-# Module 17: Measuring AI Product Success
+# Module 19: Measuring AI Product Success
 
 ## Why AI metrics are different
 
@@ -224,7 +224,7 @@ flowchart TD
 
 ---
 
-## PM Decision Checklist — Module 17
+## PM Decision Checklist — Module 19
 
 - [ ] Have I defined the north star metric for this AI feature — what does "working" look like?
 - [ ] Is instrumentation specced before development starts: session logs, accept/edit/regenerate events?

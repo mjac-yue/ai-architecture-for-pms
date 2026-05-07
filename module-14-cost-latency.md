@@ -1,4 +1,4 @@
-# Module 13: Cost, Latency & Model Selection
+# Module 14: Cost, Latency & Model Selection
 
 ## Why this matters for product decisions
 
@@ -176,7 +176,7 @@ Compare: if the system prompt were 5,000 tokens (large knowledge base):
 
 ---
 
-## PM Decision Checklist — Module 13
+## PM Decision Checklist — Module 14
 
 - [ ] Have I estimated cost per request and daily cost at expected volume?
 - [ ] Is the model tier justified? Have I tested a cheaper tier?

@@ -1,4 +1,4 @@
-# Module 14: Data Strategy for AI Products
+# Module 15: Data Strategy for AI Products
 
 ## Why data strategy is different for AI
 
@@ -50,7 +50,7 @@ This is more expensive (requires human time) but higher signal. Used for:
 - LLM-as-judge calibration (training the evaluator)
 
 **Building a labeling pipeline:**
-- Define a clear rubric before labeling starts (Module 16)
+- Define a clear rubric before labeling starts (Module 17)
 - Start with failures — label outputs that users flagged as bad; these are highest value
 - Use internal domain experts, not generic crowd-labelers, for specialized content
 - Establish inter-annotator agreement early — if two labelers disagree, the rubric needs work
@@ -203,7 +203,7 @@ When you don't have enough real labeled data, synthetic data — AI-generated ex
 
 ---
 
-## PM Decision Checklist — Module 14
+## PM Decision Checklist — Module 15
 
 - [ ] What interaction events are we logging, and is this specced before development starts?
 - [ ] Do we have a plan for building a labeled dataset from production outputs?

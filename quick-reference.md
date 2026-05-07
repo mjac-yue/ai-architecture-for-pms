@@ -24,10 +24,10 @@ If any answer is no, reconsider before building.
 |---------------|---------|---------|
 | Asks a question about your docs/data | RAG-powered Q&A | 7 |
 | Uploads a document for analysis | Single-call augmentation | 3, 6 |
-| Requests a multi-step task ("research and write") | Agentic workflow | 8 |
+| Requests a multi-step task ("research and write") | Agentic workflow | 8, 9 |
 | Needs real-time data (prices, live status) | Tool use + direct API | 8 |
-| Needs to classify/categorize input | Single call, Haiku tier | 3, 13 |
-| Needs generated content (drafts, summaries) | Single call, Sonnet | 3, 9 |
+| Needs to classify/categorize input | Single call, Haiku tier | 3, 14 |
+| Needs generated content (drafts, summaries) | Single call, Sonnet | 3, 10 |
 
 ---
 
@@ -92,7 +92,7 @@ Every AI feature spec should answer:
 ---
 
 ## Build vs. buy quick guide
-*Full framework in Module 12. Use this for fast triage.*
+*Full framework in Module 13. Use this for fast triage.*
 
 | Capability | Default recommendation |
 |-----------|----------------------|
@@ -114,7 +114,7 @@ Every AI feature spec should answer:
 ---
 
 ## Safety harm checklist
-*Use during spec and pre-launch red-team. Full coverage in Module 11.*
+*Use during spec and pre-launch red-team. Full coverage in Module 12.*
 
 - [ ] **Hallucination** — Is the feature making factual claims? Are sources/RAG in place?
 - [ ] **Bias** — Does the feature evaluate or rank people? Is demographic testing planned?
@@ -128,7 +128,7 @@ Every AI feature spec should answer:
 ---
 
 ## AI product metrics cheat sheet
-*Full definitions in Module 17.*
+*Full definitions in Module 19.*
 
 | Metric | Formula / method | What a change signals |
 |--------|-----------------|----------------------|
@@ -165,6 +165,55 @@ Before spec'ing an agent, verify:
 - The path through the task isn't fully known upfront → ✓ Agent needed
 - Any reversible action is in scope → Require human-in-the-loop
 - Max model calls per user action is defined → Budget and guardrails needed
+
+---
+
+## Multi-agent decision (→ Module 9)
+
+**Stay single-agent unless you see one of these signals:**
+- Context window saturation
+- Role confusion (one agent has too many responsibilities)
+- Tool sprawl (agent picks wrong tool with too many options)
+- Quality degradation on long multi-step tasks
+- Independent subtasks that benefit from parallel execution
+- Different parts need different permission levels
+
+**5 coordination patterns:**
+| Pattern | Best for | Cost / latency |
+|---------|----------|----------------|
+| Sequential Handoff | Pipeline tasks | Low cost, high latency |
+| Fan-out / Fan-in | Independent parallel subtasks | High cost, low latency |
+| Supervisor / Worker | Open-ended planning tasks | Medium / medium |
+| Debate / Critique | Quality-critical outputs | High / high |
+| Hierarchical Delegation | Almost never the answer | Very high / very high |
+
+---
+
+## Observability minimum (→ Module 18)
+
+For every AI request, log:
+- [ ] Input
+- [ ] Retrieved context (RAG chunks, tool results)
+- [ ] Model response (raw, before post-processing)
+- [ ] Latency (per component, end-to-end)
+- [ ] Cost (input + output tokens, model used)
+- [ ] User feedback (thumbs / edits / regenerations)
+
+**Alert thresholds:** error rate >1%, P95 latency above budget, safety filter spike, cost above forecast, empty response rate >0.5%.
+
+---
+
+## Production launch gate (→ Module 20)
+
+Define before shipping:
+- [ ] Quality bar as a number on a defined dataset (e.g. "≥75% acceptance on n=50 eval set")
+- [ ] Hallucination ceiling for factual features (e.g. "≤3% on n=100 sample")
+- [ ] Latency budget (P95)
+- [ ] Cost budget per request at expected volume
+- [ ] Zero unresolved critical safety findings
+- [ ] Kill switch implemented and **tested in production**
+- [ ] Staged rollout plan: internal → beta → 5% → 25% → 50% → 100%
+- [ ] Named owner for ongoing weekly/monthly/quarterly maintenance
 
 ---
 

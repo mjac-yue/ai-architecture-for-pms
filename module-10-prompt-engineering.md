@@ -1,4 +1,4 @@
-# Module 9: Prompt Engineering for PMs
+# Module 10: Prompt Engineering for PMs
 
 ## Why PMs need to understand prompts
 
@@ -202,7 +202,7 @@ This is more useful than "make the AI help users with X" and gives engineers som
 
 ---
 
-## PM Decision Checklist — Module 9
+## PM Decision Checklist — Module 10
 
 - [ ] Does the system prompt have all five elements: role, task, constraints, format, examples?
 - [ ] Is the output format specified precisely enough to be parsed programmatically (if needed)?
