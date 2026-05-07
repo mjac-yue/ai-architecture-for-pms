@@ -6,11 +6,11 @@ When someone says "we're adding AI to this feature," they're describing a full s
 
 ```mermaid
 graph TB
-    U["Your Product UI\n(What users see)"]
-    A["Application Layer\n(Prompt logic, input/output handling)"]
-    O["Orchestration Layer\n(Agents, tool routing, multi-step flows)"]
-    R["Retrieval Layer\n(RAG, search, database lookups)"]
-    M["Model Layer\n(The LLM API — Claude, GPT, Gemini)"]
+    U["Your Product UI<br/>(What users see)"]
+    A["Application Layer<br/>(Prompt logic, input/output handling)"]
+    O["Orchestration Layer<br/>(Agents, tool routing, multi-step flows)"]
+    R["Retrieval Layer<br/>(RAG, search, database lookups)"]
+    M["Model Layer<br/>(The LLM API — Claude, GPT, Gemini)"]
 
     U --- A --- O --- R --- M
 ```
@@ -100,7 +100,7 @@ Orchestration frameworks include: LangChain, LlamaIndex, Claude's tool use API, 
 
 ```mermaid
 flowchart LR
-    A["User uploads PDF"] --> B["Application Layer\nchunks + formats"] --> C["Model call"] --> D["Output to user"]
+    A["User uploads PDF"] --> B["Application Layer<br/>chunks + formats"] --> C["Model call"] --> D["Output to user"]
 ```
 
 Layers involved: Model + Application + UI.
@@ -113,11 +113,11 @@ Layers involved: Model + Application + UI.
 
 ```mermaid
 flowchart LR
-    A["User asks question"] --> B["Application Layer\nformats query"]
-    B --> C["Retrieval Layer\nfinds relevant docs"]
-    C --> D["Application Layer\nassembles prompt"]
-    D --> E["Model answers\nusing context"]
-    E --> F["Answer displayed\nto user"]
+    A["User asks question"] --> B["Application Layer<br/>formats query"]
+    B --> C["Retrieval Layer<br/>finds relevant docs"]
+    C --> D["Application Layer<br/>assembles prompt"]
+    D --> E["Model answers<br/>using context"]
+    E --> F["Answer displayed<br/>to user"]
 ```
 
 Layers involved: Model + Retrieval + Application + UI.
@@ -130,12 +130,12 @@ Layers involved: Model + Retrieval + Application + UI.
 
 ```mermaid
 flowchart TD
-    A["User provides\ncompetitor name"] --> B["Orchestration Layer\nplans steps"]
+    A["User provides<br/>competitor name"] --> B["Orchestration Layer<br/>plans steps"]
     B --> C["Tool call: web search"]
     C --> D["Tool call: scrape pages"]
-    D --> E["Model synthesizes\nfindings"]
-    E --> F["Tool call: write\nto document"]
-    F --> G["Result returned\nto user"]
+    D --> E["Model synthesizes<br/>findings"]
+    E --> F["Tool call: write<br/>to document"]
+    F --> G["Result returned<br/>to user"]
 ```
 
 Layers involved: All five.

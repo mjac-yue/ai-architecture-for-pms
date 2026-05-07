@@ -16,9 +16,9 @@ The most valuable AI products are built on a data flywheel: a self-reinforcing c
 
 ```mermaid
 flowchart LR
-    U["More users"] --> D["More data\n(interactions, feedback, corrections)"]
-    D --> Q["Better AI quality\n(fine-tuning, RAG, evals)"]
-    Q --> V["More value\nto users"]
+    U["More users"] --> D["More data<br/>(interactions, feedback, corrections)"]
+    D --> Q["Better AI quality<br/>(fine-tuning, RAG, evals)"]
+    Q --> V["More value<br/>to users"]
     V --> U
 ```
 
@@ -129,10 +129,10 @@ The infrastructure you need depends on which data types you're using and at what
 
 ```mermaid
 flowchart TD
-    I["Interaction logs\n(accept, edit, rate)"] --> DW["Data warehouse\n(Snowflake, BigQuery)"]
-    D["Documents + content"] --> VS["Vector store\n(Pinecone, pgvector)"]
-    L["Labeled examples"] --> LD["Label store\n+ eval dataset"]
-    DW --> AN["Analytics\n(quality dashboards)"]
+    I["Interaction logs<br/>(accept, edit, rate)"] --> DW["Data warehouse<br/>(Snowflake, BigQuery)"]
+    D["Documents + content"] --> VS["Vector store<br/>(Pinecone, pgvector)"]
+    L["Labeled examples"] --> LD["Label store<br/>+ eval dataset"]
+    DW --> AN["Analytics<br/>(quality dashboards)"]
     LD --> FT["Fine-tuning pipeline"]
     LD --> EV["Eval pipeline"]
     VS --> RAG["RAG / retrieval"]

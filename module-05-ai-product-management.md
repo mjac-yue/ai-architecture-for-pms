@@ -126,9 +126,9 @@ AI features rarely ship at full quality on day one. Plan delivery in layers:
 
 ```mermaid
 flowchart LR
-    A["Layer 1\nCore capability\n(happy path works)"] --> B["Layer 2\nEdge cases\n+ error handling"]
-    B --> C["Layer 3\nQuality tuning\n(eval-driven iteration)"]
-    C --> D["Layer 4\nMonitoring +\nfeedback loop"]
+    A["Layer 1<br/>Core capability<br/>(happy path works)"] --> B["Layer 2<br/>Edge cases<br/>+ error handling"]
+    B --> C["Layer 3<br/>Quality tuning<br/>(eval-driven iteration)"]
+    C --> D["Layer 4<br/>Monitoring +<br/>feedback loop"]
 ```
 
 **Layer 1** ships when the feature works for the majority of cases. Users get value. You learn from production data.
