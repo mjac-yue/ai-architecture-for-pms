@@ -1,4 +1,4 @@
-# Module 7: Agents and Tool Use
+# Module 8: Agents and Tool Use
 
 ## What "agentic" actually means
 
@@ -201,7 +201,7 @@ Always ask: "How many model calls does a single user action trigger in the worst
 
 ---
 
-## PM Decision Checklist — Module 7
+## PM Decision Checklist — Module 8
 
 - [ ] Is this genuinely agentic, or could a simpler single-call design work?
 - [ ] Which pattern applies: router, sequential, parallel, ReAct loop, or human-in-the-loop?

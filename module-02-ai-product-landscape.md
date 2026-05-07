@@ -1,4 +1,4 @@
-# Module 1: The AI Product Landscape
+# Module 2: The AI Product Landscape
 
 ## Why the taxonomy matters
 
@@ -219,7 +219,7 @@ When evaluating where to position an AI feature or product:
 
 ---
 
-## PM Decision Checklist — Module 1
+## PM Decision Checklist — Module 2
 
 - [ ] Which category does my product occupy? Is that a deliberate choice?
 - [ ] What is my differentiation above the foundation model layer?

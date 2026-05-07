@@ -5,7 +5,7 @@ Use this in planning sessions, spec reviews, and design critiques.
 ---
 
 ## AI opportunity filter
-*Run every potential AI feature through these before adding it to the roadmap. (→ Module 4)*
+*Run every potential AI feature through these before adding it to the roadmap. (→ Modules 1, 5)*
 
 - [ ] Is there a **language or reasoning task** at the core — not just data display or processing?
 - [ ] Would a **skilled human doing this manually** be genuinely valuable?
@@ -22,12 +22,12 @@ If any answer is no, reconsider before building.
 
 | User does this | Pattern | Modules |
 |---------------|---------|---------|
-| Asks a question about your docs/data | RAG-powered Q&A | 6 |
-| Uploads a document for analysis | Single-call augmentation | 2, 5 |
-| Requests a multi-step task ("research and write") | Agentic workflow | 7 |
-| Needs real-time data (prices, live status) | Tool use + direct API | 7 |
-| Needs to classify/categorize input | Single call, Haiku tier | 2, 12 |
-| Needs generated content (drafts, summaries) | Single call, Sonnet | 2, 8 |
+| Asks a question about your docs/data | RAG-powered Q&A | 7 |
+| Uploads a document for analysis | Single-call augmentation | 3, 6 |
+| Requests a multi-step task ("research and write") | Agentic workflow | 8 |
+| Needs real-time data (prices, live status) | Tool use + direct API | 8 |
+| Needs to classify/categorize input | Single call, Haiku tier | 3, 13 |
+| Needs generated content (drafts, summaries) | Single call, Sonnet | 3, 9 |
 
 ---
 
@@ -92,7 +92,7 @@ Every AI feature spec should answer:
 ---
 
 ## Build vs. buy quick guide
-*Full framework in Module 11. Use this for fast triage.*
+*Full framework in Module 12. Use this for fast triage.*
 
 | Capability | Default recommendation |
 |-----------|----------------------|
@@ -114,7 +114,7 @@ Every AI feature spec should answer:
 ---
 
 ## Safety harm checklist
-*Use during spec and pre-launch red-team. Full coverage in Module 10.*
+*Use during spec and pre-launch red-team. Full coverage in Module 11.*
 
 - [ ] **Hallucination** — Is the feature making factual claims? Are sources/RAG in place?
 - [ ] **Bias** — Does the feature evaluate or rank people? Is demographic testing planned?
@@ -128,7 +128,7 @@ Every AI feature spec should answer:
 ---
 
 ## AI product metrics cheat sheet
-*Full definitions in Module 16.*
+*Full definitions in Module 17.*
 
 | Metric | Formula / method | What a change signals |
 |--------|-----------------|----------------------|

@@ -1,4 +1,4 @@
-# Module 14: Working with AI Engineering Teams
+# Module 15: Working with AI Engineering Teams
 
 ## What's different about AI engineering
 
@@ -219,7 +219,7 @@ Align on these explicitly at the start of any AI feature:
 
 ---
 
-## PM Decision Checklist — Module 14
+## PM Decision Checklist — Module 15
 
 - [ ] Is the task description precise enough that two engineers would build the same thing?
 - [ ] Is the output format and quality criteria spec'd before development starts?

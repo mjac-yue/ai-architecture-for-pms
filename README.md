@@ -34,26 +34,27 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 | # | Module | What you'll be able to do after |
 |---|--------|----------------------------------|
 | **Part 1: Orientation** | | |
-| 1 | [The AI Product Landscape](module-01-ai-product-landscape.md) | Map any AI product to its category; understand competitive dynamics and where defensibility comes from |
-| 2 | [How LLMs Actually Work](module-02-how-llms-work.md) | Explain context windows, tokens, and model tiers to stakeholders; set realistic expectations |
-| 3 | [Multimodal AI](module-03-multimodal-ai.md) | Know what's production-ready across vision, audio, and video; spec multimodal features correctly |
-| 4 | [AI Product Management](module-04-ai-product-management.md) | Run the full AI PM lifecycle: opportunity identification, problem framing, roadmapping, stakeholder communication |
+| 1 | [Why AI Products Exist](module-01-why-ai-products-exist.md) | Articulate the capability shift LLMs created; identify the value pattern of any AI feature; apply the AI rightness test |
+| 2 | [The AI Product Landscape](module-02-ai-product-landscape.md) | Map any AI product to its category; understand competitive dynamics and where defensibility comes from |
+| 3 | [How LLMs Actually Work](module-03-how-llms-work.md) | Explain context windows, tokens, and model tiers to stakeholders; set realistic expectations |
+| 4 | [Multimodal AI](module-04-multimodal-ai.md) | Know what's production-ready across vision, audio, and video; spec multimodal features correctly |
+| 5 | [AI Product Management](module-05-ai-product-management.md) | Run the full AI PM lifecycle: opportunity identification, problem framing, roadmapping, stakeholder communication |
 | **Part 2: Architecture** | | |
-| 5 | [The AI Product Stack](module-05-ai-product-stack.md) | Map any AI feature to its architecture layers; know where complexity lives |
-| 6 | [RAG — Giving AI Your Data](module-06-rag.md) | Spec a retrieval system; understand accuracy/freshness tradeoffs |
-| 7 | [Agents and Tool Use](module-07-agents-tool-use.md) | Define agentic features clearly; know when agents are overkill |
+| 6 | [The AI Product Stack](module-06-ai-product-stack.md) | Map any AI feature to its architecture layers; know where complexity lives |
+| 7 | [RAG — Giving AI Your Data](module-07-rag.md) | Spec a retrieval system; understand accuracy/freshness tradeoffs |
+| 8 | [Agents and Tool Use](module-08-agents-tool-use.md) | Define agentic features clearly; know when agents are overkill |
 | **Part 3: PM Craft** | | |
-| 8 | [Prompt Engineering for PMs](module-08-prompt-engineering.md) | Write AI behavior specs engineers can build from; review prompts in PRs |
-| 9 | [AI UX Patterns](module-09-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
-| 10 | [AI Safety & Responsible AI](module-10-ai-safety-responsible-ai.md) | Identify and mitigate AI harms; run red-team exercises; understand the regulatory landscape |
+| 9 | [Prompt Engineering for PMs](module-09-prompt-engineering.md) | Write AI behavior specs engineers can build from; review prompts in PRs |
+| 10 | [AI UX Patterns](module-10-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
+| 11 | [AI Safety & Responsible AI](module-11-ai-safety-responsible-ai.md) | Identify and mitigate AI harms; run red-team exercises; understand the regulatory landscape |
 | **Part 4: Strategy** | | |
-| 11 | [Build vs. Buy for AI Features](module-11-build-vs-buy.md) | Make principled build/buy decisions; evaluate vendors on quality, data risk, and cost |
-| 12 | [Cost, Latency & Model Selection](module-12-cost-latency.md) | Make informed model-tier decisions; estimate AI infrastructure cost |
-| 13 | [Data Strategy for AI Products](module-13-data-strategy.md) | Build a data flywheel; identify your data moat; govern AI data correctly |
+| 12 | [Build vs. Buy for AI Features](module-12-build-vs-buy.md) | Make principled build/buy decisions; evaluate vendors on quality, data risk, and cost |
+| 13 | [Cost, Latency & Model Selection](module-13-cost-latency.md) | Make informed model-tier decisions; estimate AI infrastructure cost |
+| 14 | [Data Strategy for AI Products](module-14-data-strategy.md) | Build a data flywheel; identify your data moat; govern AI data correctly |
 | **Part 5: Execution** | | |
-| 14 | [Working with AI Engineering Teams](module-14-working-with-ai-engineers.md) | Write specs engineers can build from; estimate AI work; manage prompt and model changes safely |
-| 15 | [Evaluating AI Features](module-15-evaluation.md) | Write acceptance criteria for AI; run basic evals before launch |
-| 16 | [Measuring AI Product Success](module-16-measuring-ai-product-success.md) | Define AI quality metrics; instrument features correctly; connect AI performance to business outcomes |
+| 15 | [Working with AI Engineering Teams](module-15-working-with-ai-engineers.md) | Write specs engineers can build from; estimate AI work; manage prompt and model changes safely |
+| 16 | [Evaluating AI Features](module-16-evaluation.md) | Write acceptance criteria for AI; run basic evals before launch |
+| 17 | [Measuring AI Product Success](module-17-measuring-ai-product-success.md) | Define AI quality metrics; instrument features correctly; connect AI performance to business outcomes |
 
 ---
 
