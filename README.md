@@ -2,30 +2,33 @@
 
 A practical course covering the technology behind AI products — not to make you an engineer, but to make you a better decision-maker when building with AI.
 
+---
+
 ## Who this is for
 
 You're a PM who ships AI-powered features. You don't need to write the code, but you need to understand what's possible, what's hard, what costs money, and what to ask your engineers.
 
-## How to use this
+---
 
-Read the modules in order the first time. Return to individual modules as reference when making product decisions. Each module ends with **PM Decision Checklist** — use those in planning and spec reviews.
+## Core mental models
 
-When starting any AI feature, open the **[AI PM Playbook](ai-pm-playbook.md)** — it maps the full product lifecycle (discover → spec → build → launch → measure) with stage-by-stage checklists and module references. The **[Quick Reference](quick-reference.md)** is for fast lookups during planning sessions and spec reviews.
+Before starting, internalise these four ideas. They reframe how you'll read everything that follows.
+
+**AI is a probabilistic component.** Unlike a database query that returns the same result every time, an LLM produces different outputs for the same input. Design for this — don't fight it.
+
+**The model is not your product.** The model is infrastructure. Your product is the system around it: what data you give it, how you constrain its behaviour, how you handle failures.
+
+**Garbage in, garbage out — but worse.** With databases, bad input returns an error. With AI, bad input returns a confident-sounding wrong answer. Validation and evaluation matter more, not less.
+
+**You are shipping a system, not a feature.** An AI feature involves a model, a prompt, data retrieval, output handling, fallbacks, and monitoring. Spec all of it.
 
 ---
 
-## Getting the materials
+## How to use this course
 
-**Clone the repo:**
-```bash
-git clone https://github.com/mjac-yue/ai-architecture-for-pms.git
-cd ai-architecture-for-pms
-```
+Read the modules in order the first time. Return to individual modules as reference when making product decisions. Each module ends with a **PM Decision Checklist** — use those in planning and spec reviews.
 
-**Download without git** (ZIP):
-Go to [github.com/mjac-yue/ai-architecture-for-pms](https://github.com/mjac-yue/ai-architecture-for-pms) → **Code** → **Download ZIP**, then unzip.
-
-All modules are plain Markdown files. Open them in any Markdown viewer, editor (VS Code, Obsidian, Notion import), or read directly on GitHub — diagrams render automatically there.
+When starting any AI feature, open the **[AI PM Playbook](ai-pm-playbook.md)** — it maps the full product lifecycle (discover → spec → build → launch → measure) with stage-by-stage checklists and module references. The **[Quick Reference](quick-reference.md)** is for fast lookups during planning sessions and spec reviews.
 
 ---
 
@@ -45,7 +48,7 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 | 8 | [Agents and Tool Use](module-08-agents-tool-use.md) | Define agentic features; know when agents are overkill; diagnose using the Agent Development Stack |
 | 9 | [Multi-Agent Architecture](module-09-multi-agent-architecture.md) | Recognise when single-agent breaks down; choose between 5 coordination patterns; reason about agent isolation |
 | **Part 3: PM Craft** | | |
-| 10 | [Prompt Engineering for PMs](module-10-prompt-engineering.md) | Write AI behavior specs engineers can build from; review prompts in PRs |
+| 10 | [Prompt Engineering for PMs](module-10-prompt-engineering.md) | Write AI behaviour specs engineers can build from; review prompts in PRs |
 | 11 | [AI UX Patterns](module-11-ai-ux-patterns.md) | Design AI interactions that build trust; know when not to use AI |
 | 12 | [AI Safety & Responsible AI](module-12-ai-safety-responsible-ai.md) | Identify and mitigate AI harms; run red-team exercises; understand the regulatory landscape |
 | **Part 4: Strategy** | | |
@@ -61,22 +64,25 @@ All modules are plain Markdown files. Open them in any Markdown viewer, editor (
 
 ---
 
-## Reference documents
+## Appendix
 
 | Document | Purpose |
 |----------|---------|
 | [AI PM Playbook](ai-pm-playbook.md) | Full product lifecycle workflow with stage-by-stage checklists — open this when starting any AI feature |
-| [Quick Reference](quick-reference.md) | Fast lookup: pattern selector, cost estimates, prompt checklist, glossary |
+| [Quick Reference](quick-reference.md) | Fast lookup: decision trees, pattern selector, cost estimates, prompt checklist, glossary |
 | [Anti-Patterns](anti-patterns.md) | Catalogue of common AI PM mistakes by lifecycle phase, with fixes |
 
 ---
 
-## Core mental models (read these first)
+## Getting the materials
 
-**AI is a probabilistic component.** Unlike a database query that returns the same result every time, an LLM produces different outputs for the same input. Design for this — don't fight it.
+**Clone the repo:**
+```bash
+git clone https://github.com/mjac-yue/ai-architecture-for-pms.git
+cd ai-architecture-for-pms
+```
 
-**The model is not your product.** The model is infrastructure. Your product is the system around it: what data you give it, how you constrain its behavior, how you handle failures.
+**Download without git** (ZIP):
+Go to [github.com/mjac-yue/ai-architecture-for-pms](https://github.com/mjac-yue/ai-architecture-for-pms) → **Code** → **Download ZIP**, then unzip.
 
-**Garbage in, garbage out — but worse.** With databases, bad input returns an error. With AI, bad input returns a confident-sounding wrong answer. Validation and evaluation matter more, not less.
-
-**You are shipping a system, not a feature.** An AI feature involves a model, a prompt, data retrieval, output handling, fallbacks, and monitoring. Spec all of it.
+All modules are plain Markdown files. Open them in any Markdown viewer, editor (VS Code, Obsidian, Notion import), or read directly on GitHub — diagrams render automatically there.
