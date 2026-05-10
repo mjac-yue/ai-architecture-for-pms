@@ -72,7 +72,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
 .mermaid { background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 8px; padding: 20px; margin: 14px 0 18px; overflow-x: auto; text-align: center; }
 
 /* Page nav */
-#page-nav { display: flex; gap: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
+#page-nav-top { display: flex; gap: 12px; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+#page-nav-bottom { display: flex; gap: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border); }
 .nav-btn { flex: 1; padding: 12px 16px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 13px; display: flex; flex-direction: column; gap: 3px; cursor: pointer; background: white; transition: border-color 0.15s, background 0.15s; text-align: left; }
 .nav-btn:hover { border-color: var(--accent); background: var(--accent-light); }
 .nav-btn .dir { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
@@ -96,8 +97,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-
     <div id="progress-text"></div>
   </div>
   <div id="content-wrap">
+    <div id="page-nav-top"></div>
     <div id="content"></div>
-    <div id="page-nav"></div>
+    <div id="page-nav-bottom"></div>
   </div>
 </div>
 
@@ -122,13 +124,14 @@ function showPage(id) {
   // Render mermaid diagrams
   try { mermaid.run({ querySelector: '.mermaid' }); } catch(e) { console.warn(e); }
 
-  // Prev/next buttons
+  // Prev/next buttons (top and bottom)
   const n = nav[id];
   let navHtml = '';
   if (n.prev) navHtml += `<button class="nav-btn prev" onclick="showPage('${n.prev}')"><span class="dir">← Previous</span><span class="ptitle">${n.prevTitle}</span></button>`;
   else navHtml += '<div></div>';
   if (n.next) navHtml += `<button class="nav-btn next" onclick="showPage('${n.next}')"><span class="dir">Next →</span><span class="ptitle">${n.nextTitle}</span></button>`;
-  document.getElementById('page-nav').innerHTML = navHtml;
+  document.getElementById('page-nav-top').innerHTML = navHtml;
+  document.getElementById('page-nav-bottom').innerHTML = navHtml;
 
   // Highlight active nav link
   document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
